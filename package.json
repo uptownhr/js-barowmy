@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "auto-loader": "^0.2.0",
     "koa": "^1.0.0",
     "koa-jade": "^2.0.0",
     "koa-static": "^1.4.9",
+    "lodash": "^3.10.1",
     "mongoose": "^4.1.8"
   }
 }
