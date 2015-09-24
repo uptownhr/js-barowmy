@@ -1,4 +1,4 @@
-"use static"
+"use strict"
 
 var app = require('./app'),
   mongoose = require('./db')

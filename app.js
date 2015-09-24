@@ -1,4 +1,4 @@
-"use static"
+"use strict"
 const koa = require('koa'),
   Jade = require('koa-jade'),
   serve = require('koa-static'),
