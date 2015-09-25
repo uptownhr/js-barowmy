@@ -22,7 +22,6 @@ passport.deserializeUser(function(id, done) {
  * Sign in using Username and Password.
  */
 passport.use(new LocalStrategy({ usernameField: 'username' }, function(username, password, done) {
-  console.log('wtf', username, password)
   username = username.toLowerCase();
   User.findOne({ username: username }, function(err, user) {
     if (!user) return done(null, false, { message: 'Username ' + username + ' not found'});

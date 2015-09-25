@@ -1,6 +1,7 @@
 "use strict"
 
 var router = require('koa-router')
+var passport = require('koa-passport')
 
 var fs = require('fs')
 var path = require('path')
@@ -13,7 +14,7 @@ var routes = {}
 //auto-loading route files in routes directory
 fs.readdirSync(normalizedPath).forEach(function(file) {
   var fileName = file.replace('.js','')
-  var route = require(relPath + "/" + file)(router());
+  var route = require(relPath + "/" + file)(router(), passport);
 
   routes[fileName] = route
 });

@@ -1,9 +1,5 @@
 "use strict"
-
-const passport = require('koa-passport')
-
 const User = require('../models/User')
-const koaBody = require('koa-body')()
 
 //user controller
 module.exports = function(router){
@@ -22,7 +18,7 @@ module.exports = function(router){
     .get('/new', function *(next){
       this.render('user/new')
     })
-    .post('/create', koaBody, function *(next){
+    .post('/create', function *(next){
       let user = new User(this.request.body)
       try{
         yield user.save()
@@ -39,7 +35,7 @@ module.exports = function(router){
     .get('/login', function *(next){
 
     })
-    .post('/auth', koaBody, function *(next){
+    .post('/auth', function *(next){
       var ctx = this
       yield passport.authenticate('local', function *(err, user, info){
         console.log(err,user,info,this)
