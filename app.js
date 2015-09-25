@@ -3,9 +3,13 @@ const koa = require('koa'),
   Jade = require('koa-jade'),
   serve = require('koa-static'),
   config = require('./config'),
+  session = require('koa-session'),
+  //passport = require('koa-passport'),
+  passport = require('./passport'),
   routes = require('./routes'),
   _ = require('lodash')
 
+console.log(passport._serializers[0][0])
 const jade = new Jade({
   viewPath: config.viewPath,
   debug: true,
@@ -19,6 +23,12 @@ var app = koa()
 
 app.use(jade.middleware)
 app.use(serve(config.staticPath))
+
+//session/passport
+app.keys = ['testing1234']
+app.use(session(app))
+app.use(passport.initialize())
+app.use(passport.session())
 
 _.forIn(routes, function(route){
   app.use( route.routes() )
