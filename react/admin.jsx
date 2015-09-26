@@ -2,6 +2,10 @@
 const {React,Base} = require('./base')
 const Login = require('./login')
 const Dashboard = require('./dashboard')
+const Packages = require('./packages')
+const Products = require('./products')
+const Vendors = require('./vendors')
+
 const {Nav, NavItem} = require('react-bootstrap')
 
 class Admin extends Base{
@@ -10,7 +14,7 @@ class Admin extends Base{
 
     this.state = {
       loggedIn: props.loggedIn || false,
-      navSelectedKey: 1
+      navSelectedKey: 0
     }
   }
 
@@ -50,6 +54,16 @@ class Admin extends Base{
       }
     ]
 
+    const currentPage = navItems[this.state.navSelectedKey].title
+    let pageComponent
+    switch( currentPage ){
+      case 'Dashboard': pageComponent = <Dashboard />; break;
+      case 'Packages': pageComponent = <Packages />; break;
+      case 'Products': pageComponent = <Products />; break;
+      case 'Vendors': pageComponent = <Vendors />; break;
+    }
+
+    console.log( pageComponent )
     const View =
       <div>
         <Nav bsStyle="pills" stacked activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>
@@ -57,7 +71,7 @@ class Admin extends Base{
             <NavItem eventKey={key} key={key} href={nav.path}>{nav.title}</NavItem>
           )}
         </Nav>
-        <Dashboard/>
+        {pageComponent}
       </div>
 
 
