@@ -1,8 +1,8 @@
 html
   head
-    link(rel="stylesheet" type="text/css" href="/dist/css/bootstrap.min.css")
+    link(rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
     link(rel="stylesheet" type="text/css" href="https://bootswatch.com/darkly/bootstrap.min.css")
-    link(rel="stylesheet" type="text/css" href="/dist/css/main.css")
+    link(rel="stylesheet" type="text/css" href="/main.css")
   body
     div.jumbotron.text-center
       h1 Barowmy Admin
@@ -17,3 +17,5 @@ html
             input.form-control(type="password" name="password")
           .form-group
             input.btn.btn-primary(type="submit" value="Login")
+    script(src="/bower_components/jquery/dist/jquery.min.js")
+    script(src="/app.js")
