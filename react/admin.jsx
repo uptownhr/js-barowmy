@@ -63,7 +63,6 @@ class Admin extends Base{
       case 'Vendors': pageComponent = <Vendors />; break;
     }
 
-    console.log( pageComponent )
     const View =
       <div>
         <Nav bsStyle="pills" stacked activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>

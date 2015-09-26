@@ -67,7 +67,6 @@ class Dashboard extends React.Component{
 
   componentDidMount(){
     $.get('/admin/dashboard', res => {
-      console.log(res)
       this.setState(res)
     } )
   }
