@@ -1,5 +1,14 @@
 "use strict"
 var bodyParser = require('koa-body')()
+var async = require('async')
+var Package = require('../models/Package')
+var Product = require('../models/Product')
+var User = require('../models/User')
+var Vendor = require('../models/Vendor')
+var Promise = require('bluebird')
+var moment = require('moment')
+var _ = require('lodash')
+
 
 //index controller
 module.exports = function(router, passport){
@@ -16,6 +25,7 @@ module.exports = function(router, passport){
   //login
   router
     .get('/auth', function *(next){
+      console.log(this.req.user )
       if( this.req.user ){
         this.body = 'logged in'
       }else{
@@ -23,20 +33,114 @@ module.exports = function(router, passport){
         this.body = 'not logged in'
       }
     })
-    .post('/auth', function *(next) {
-      var ctx = this
-      var test = yield passport.authenticate('local', function *(err, user, info){
-        if(user){
-          ctx.body = 'success'
-        }else{
-          ctx.status = 401
-          ctx.body = info.message
-        }
-      }).call(this, next)
+    .post('/auth', passport.authenticate('local'), function *(next){
+      this.body = 'logged in'
     })
     .get('/logout', function *(next){
       this.req.logOut()
       this.body = 'logged out'
+    })
+
+  router
+  .get('/dashboard', function *(next){
+      //get counts of all models
+      yield Promise.all([
+        Package.find(),
+        Product.find(),
+        User.find(),
+        Vendor.find()
+      ]).spread( (Packages, Products, Users, Vendors) => {
+//        this.status = 200
+
+        let userDates = Users.map( user => moment(user.created_at).format("YYYYMMDD") )
+        let packageDates = Packages.map( pack => moment(pack.created_at).format("YYYYMMDD") )
+        let productDates = Products.map( product => moment(product.created_at).format("YYYYMMDD") )
+        let vendorDates = Vendors.map( vendor => moment(vendor.created_at).format("YYYYMMDD") )
+
+        let combinedDates = _.uniq( userDates.concat(packageDates,productDates,vendorDates) )
+
+        let userData = combinedDates.map( date => {
+          let count = userDates.reduce( (final, d) => {
+            return final = (d == date)? final+1: final
+          }, 0 )
+          return count
+        } )
+
+        let packageData = combinedDates.map( date => {
+          let count = packageDates.reduce( (final, d) => {
+            return final = (d == date)? final+1: final
+          }, 0 )
+          return count
+        } )
+
+        let productData = combinedDates.map( date => {
+          let count = productDates.reduce( (final, d) => {
+            return final = (d == date)? final+1: final
+          }, 0 )
+          return count
+        } )
+
+        let vendorData = combinedDates.map( date => {
+          let count = vendorDates.reduce( (final, d) => {
+            return final = (d == date)? final+1: final
+          }, 0 )
+          return count
+        } )
+
+        let datasets = [
+          {
+            label: 'User',
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: userData
+          },
+          {
+            label: 'Package',
+            fillColor: "rgba(0,220,220,0.2)",
+            strokeColor: "rgba(0,220,220,1)",
+            pointColor: "rgba(0,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(0,220,220,1)",
+            data: packageData
+          },
+          {
+            label: 'Product',
+            fillColor: "rgba(220,0,220,0.2)",
+            strokeColor: "rgba(220,0,220,1)",
+            pointColor: "rgba(220,0,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,0,220,1)",
+            data: productData
+          },
+          {
+            label: 'Vendor',
+            fillColor: "rgba(220,220,0,0.2)",
+            strokeColor: "rgba(220,220,0,1)",
+            pointColor: "rgba(220,220,0,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,0,1)",
+            data: vendorData
+          }
+        ]
+
+        this.body = {
+          package: Packages.length,
+          product: Products.length,
+          user: Users.length,
+          vendor: Vendors.length,
+          chart:{
+            labels: combinedDates,
+            datasets: datasets
+          }
+        }
+      })
     })
 
   //check for authentication and redirect to /login
