@@ -23,7 +23,6 @@ class Product extends Base{
   }
 
   componentWillReceiveProps(props){
-    console.log(props)
     if(props.id){
       this.loadData(props.id)
     }else{
@@ -72,7 +71,6 @@ class Product extends Base{
   }
 
   render(){
-    console.log('product render', this.state.data.skus)
     return(
       <div>
         <form onSubmit={this.handleSubmit}>

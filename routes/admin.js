@@ -151,13 +151,12 @@ module.exports = function(router, passport){
     })
     .post('/products/new', function *(next){
       let params = this.request.body
-      console.log(params)
       let product = new Product(params)
       let response = '';
+
       try{
         response = yield product.save()
       }catch(e){
-        console.log(e)
         response = e.message
         this.status = 500
       }
@@ -166,7 +165,6 @@ module.exports = function(router, passport){
     })
     .post('/products/edit', function *(next){
       let params = this.request.body
-      console.log(params)
       let res = yield Product.update({_id: params._id}, params)
 
       this.body = res
@@ -176,13 +174,11 @@ module.exports = function(router, passport){
     })
     .post('/vendors/new', function *(next){
       let params = this.request.body
-      console.log(params)
       let vendor = new Vendor(params)
       let response = '';
       try{
         response = yield vendor.save()
       }catch(e){
-        console.log(e)
         response = e.message
         this.status = 500
       }
