@@ -12,7 +12,7 @@ const skuSchema = new mongoose.Schema({
 })
 
 const productSchema = new mongoose.Schema({
-  name: {type: String},
+  name: {type: String, unique: true},
   description: {type: String},
   images: [imageSchema],
   skus: [skuSchema],

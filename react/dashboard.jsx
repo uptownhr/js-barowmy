@@ -79,8 +79,12 @@ class Dashboard extends React.Component{
         <Grid>
           <Row>
             <Col>
-              <h2>Users</h2>
-              <p>Count: {this.state.user}</p>
+              <Row>
+                <Col md={1}>Users: {this.state.user}</Col>
+                <Col md={2}>Packages: {this.state.package}</Col>
+                <Col md={2}>Products: {this.state.product} </Col>
+                <Col md={2}>Vendors: {this.state.vendor} </Col>
+              </Row>
               <Line data={this.state.chart} style={{width: '100%'}} redraw />
             </Col>
           </Row>

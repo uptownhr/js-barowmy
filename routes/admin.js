@@ -41,6 +41,7 @@ module.exports = function(router, passport){
       this.body = 'logged out'
     })
 
+  //api
   router
   .get('/dashboard', function *(next){
       //get counts of all models
@@ -141,6 +142,37 @@ module.exports = function(router, passport){
           }
         }
       })
+    })
+    .get('/products', function *(next){
+      let products = yield Product.find().sort({created_at: -1})
+
+      this.body = products
+    })
+    .get('/products/:id', function *(next){
+      let id = this.params.id
+      let product = yield Product.findOne({_id: id})
+      this.body = product
+    })
+    .post('/products/new', function *(next){
+      let params = this.request.body
+      console.log(params)
+      let product = new Product(params)
+      let response = '';
+      try{
+        response = yield product.save()
+      }catch(e){
+        console.log(e)
+        response = e.message
+        this.status = 500
+      }
+
+      this.body = response
+    })
+    .post('/products/edit', function *(next){
+      let params = this.request.body
+      let res = yield Product.update({_id: params._id}, params)
+
+      this.body = res
     })
 
   //check for authentication and redirect to /login
