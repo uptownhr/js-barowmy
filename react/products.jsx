@@ -9,6 +9,7 @@ class Products extends Base{
     this.state = {
       action: '',
       error: '',
+      vendors: [],
       products: [],
       product_id: null,
       product_action: 'new'
@@ -16,11 +17,26 @@ class Products extends Base{
   }
 
   componentDidMount(){
-    $.get('/admin/products', res => {
+    this.getData().then( values => {
       this.setState({
-        products: res
+        products: values[0],
+        vendors: values[1]
       })
     })
+  }
+
+  getData(){
+    return Promise
+      .all([this.getProducts(),this.getVendors()])
+  }
+
+  getProducts() {
+    return $.get('/admin/products')
+  }
+
+
+  getVendors(){
+    return $.get('/admin/vendors')
   }
 
   showNew(){
@@ -69,7 +85,7 @@ class Products extends Base{
       <div>
         <p>{this.state.error}</p>
         <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
-        <Product action={this.state.product_action} id={this.state.product_id} saveProduct={this.saveProduct} />
+        <Product action={this.state.product_action} id={this.state.product_id} saveProduct={this.saveProduct} vendors={this.state.vendors} />
         <ul>Products
           {this.state.products.map( product => {
             return <li onClick={this.editProduct.bind(this,product._id)}>{product.name}</li>

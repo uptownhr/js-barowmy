@@ -166,6 +166,7 @@ module.exports = function(router, passport){
     })
     .post('/products/edit', function *(next){
       let params = this.request.body
+      console.log(params)
       let res = yield Product.update({_id: params._id}, params)
 
       this.body = res

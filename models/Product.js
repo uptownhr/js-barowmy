@@ -3,8 +3,8 @@ const mongoose = require('mongoose'),
   imageSchema = require('./imageSchema')
 
 const skuSchema = new mongoose.Schema({
-  product_id: {type: Schema.Types.ObjectId, ref: 'Product'},
   vendor_id: {type: Schema.Types.ObjectId, ref: 'Vendor'},
+  name: {type: String},
   duration: {type: String},
   price: {type: Number},
   qty: {type: Number},

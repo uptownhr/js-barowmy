@@ -1,6 +1,7 @@
 "use strict"
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
+const Skus = require('./skus')
 
 class Product extends Base{
   constructor(props){
@@ -22,8 +23,8 @@ class Product extends Base{
   }
 
   componentWillReceiveProps(props){
+    console.log(props)
     if(props.id){
-
       this.loadData(props.id)
     }else{
       this.setState( this.initialState(props) )
@@ -56,11 +57,12 @@ class Product extends Base{
     this.setState(this.state)
   }
 
-  render(){
-    this.state.data.skus.push({product_id:1, vendor_id:1})
-    let skus = this.state.data.skus
-    let skuList = skus?skus.map( sku => <li>{sku}</li>):''
+  addSku(sku){
+    this.state.data.skus.push(sku)
+    this.setState(this.state.data)
+  }
 
+  render(){
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -73,16 +75,10 @@ class Product extends Base{
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
+
           <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
-          <h2>SKUs</h2>
-          <ul>
-            <Input type="text" label="Name" value={this.state.sku} />
-            <Input type="select" label="Vendor">
-              <option value="1">Barowmy</option>
-            </Input>
-            {skuList}
-          </ul>
         </form>
+        <Skus skus={this.state.data.skus} addSku={this.addSku} vendors={this.props.vendors} />
       </div>
     )
   }
