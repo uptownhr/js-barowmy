@@ -6,6 +6,7 @@ const packageSchema = new mongoose.Schema({
   tag_line: {type: String},
   description: {type: String},
   images: [imageSchema],
+  products: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
   created_at: {type: Date, default: Date.now }
 })
 

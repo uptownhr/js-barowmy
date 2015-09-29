@@ -175,7 +175,7 @@ module.exports = function(router, passport){
     .post('/vendors/new', function *(next){
       let params = this.request.body
       let vendor = new Vendor(params)
-      let response = '';
+      let response = ''
       try{
         response = yield vendor.save()
       }catch(e){
@@ -187,6 +187,24 @@ module.exports = function(router, passport){
     })
     .get('/vendors/:id', function *(next){
       this.body = yield Vendor.findOne({_id: this.params.id})
+    })
+    .get('/packages', function *(next){
+      this.body = yield Package.find().sort({created_at: -1})
+    })
+    .post('/packages/new', function *(next){
+      console.log('wtf')
+      let params = this.request.body
+      let pack = new Package(params)
+      let response = ''
+
+      try{
+        response = yield pack.save()
+      }catch(e){
+        response = e.message
+        this.status = 500
+      }
+
+      this.body = response
     })
 
   //check for authentication and redirect to /login
