@@ -10,6 +10,7 @@ class Packages extends Base{
       action: '',
       error: '',
       packages: [],
+      products: [],
       package_action: 'new',
       package_id: null,
       package: {}
@@ -17,19 +18,23 @@ class Packages extends Base{
   }
 
   componentDidMount(){
-    this.getData().then( packages => {
-      this.setState({packages})
+    this.getData().then( res => {
+      this.setState({
+        packages: res[0],
+        products: res[1]
+      })
     })
   }
 
   getData(){
-    return $.get('/admin/packages')
+    return Promise.all([$.get('/admin/packages'), $.get('/admin/products')])
   }
 
   showNew(){
     this.setState({
       package_action: 'new',
-      package_id: null
+      package_id: null,
+      package: {}
     })
   }
 

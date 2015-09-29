@@ -206,6 +206,12 @@ module.exports = function(router, passport){
 
       this.body = response
     })
+    .post('/packages/edit', function *(next){
+      let params = this.request.body
+      let res = yield Package.update({_id: params._id}, params)
+
+      this.body = res
+    })
 
   //check for authentication and redirect to /login
   /*router.use( function *(next){

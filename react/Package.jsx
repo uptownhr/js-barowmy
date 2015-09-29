@@ -23,6 +23,7 @@ class Package extends Base{
   }
 
   componentWillReceiveProps(props){
+    console.log(props)
     this.setState( this.initialState(props) )
   }
 
