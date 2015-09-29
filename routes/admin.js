@@ -144,14 +144,10 @@ module.exports = function(router, passport){
       })
     })
     .get('/products', function *(next){
-      let products = yield Product.find().sort({created_at: -1})
-
-      this.body = products
+      this.body = yield Product.find().sort({created_at: -1})
     })
     .get('/products/:id', function *(next){
-      let id = this.params.id
-      let product = yield Product.findOne({_id: id})
-      this.body = product
+      this.body = yield Product.findOne({_id: this.params.id})
     })
     .post('/products/new', function *(next){
       let params = this.request.body
@@ -173,6 +169,27 @@ module.exports = function(router, passport){
       let res = yield Product.update({_id: params._id}, params)
 
       this.body = res
+    })
+    .get('/vendors', function *(next){
+      this.body = yield Vendor.find().sort({created_at: -1})
+    })
+    .post('/vendors/new', function *(next){
+      let params = this.request.body
+      console.log(params)
+      let vendor = new Vendor(params)
+      let response = '';
+      try{
+        response = yield vendor.save()
+      }catch(e){
+        console.log(e)
+        response = e.message
+        this.status = 500
+      }
+
+      this.body = response
+    })
+    .get('/vendors/:id', function *(next){
+      this.body = yield Vendor.findOne({_id: this.params.id})
     })
 
   //check for authentication and redirect to /login

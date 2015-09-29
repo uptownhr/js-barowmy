@@ -65,8 +65,6 @@ class Products extends Base{
   }
 
   render(){
-    var page
-
     return(
       <div>
         <p>{this.state.error}</p>

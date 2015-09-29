@@ -2,7 +2,7 @@
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
 
-class Product extends Base{
+class Vendor extends Base{
   constructor(props){
     super(props)
 
@@ -38,7 +38,7 @@ class Product extends Base{
   }
 
   loadData(id){
-    $.get(`/admin/products/${id}`)
+    $.get(`/admin/vendors/${id}`)
       .done(res => {
         this.setState({data:res})
       })
@@ -48,7 +48,7 @@ class Product extends Base{
   handleSubmit(e){
     e.preventDefault()
 
-    this.props.saveProduct(this.state.data)
+    this.props.saveVendor(this.state.data)
   }
 
   inputChange(field, e ) {
@@ -57,35 +57,23 @@ class Product extends Base{
   }
 
   render(){
-    this.state.data.skus.push({product_id:1, vendor_id:1})
-    let skus = this.state.data.skus
-    let skuList = skus?skus.map( sku => <li>{sku}</li>):''
-
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
-          <h1>{this.props.action=='edit'? `Edit Product: ${this.state.data.name}`: `New Product: ${this.state.data.name}`}</h1>
-          <Input type="text" label="Name" placeholder="Enter product name"
+          <h1>{this.props.action=='edit'? `Edit Vendor: ${this.state.data.name}`: `New Vendor: ${this.state.data.name}`}</h1>
+          <Input type="text" label="Name" placeholder="Enter vendor name"
                  value={this.state.data.name}
                  onChange={this.inputChange.bind(this, 'name')}
             />
-          <Input type="textarea" label="Description" placeholder="Enter product description"
+          <Input type="textarea" label="Description" placeholder="Enter vendor description"
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
           <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
-          <h2>SKUs</h2>
-          <ul>
-            <Input type="text" label="Name" value={this.state.sku} />
-            <Input type="select" label="Vendor">
-              <option value="1">Barowmy</option>
-            </Input>
-            {skuList}
-          </ul>
         </form>
       </div>
     )
   }
 }
 
-module.exports = Product
+module.exports = Vendor
