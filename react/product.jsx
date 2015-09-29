@@ -57,12 +57,22 @@ class Product extends Base{
     this.setState(this.state)
   }
 
-  addSku(sku){
-    this.state.data.skus.push(sku)
+  saveSku(sku){
+    if(!sku._id){
+      this.state.data.skus.push(sku)
+    }
+
+    this.setState(this.state.data)
+  }
+
+  deleteSku(sku){
+    let index = this.state.data.skus.indexOf(sku)
+    this.state.data.skus.splice(index,1)
     this.setState(this.state.data)
   }
 
   render(){
+    console.log('product render', this.state.data.skus)
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -75,10 +85,10 @@ class Product extends Base{
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
-
+          <Skus skus={this.state.data.skus} saveSku={this.saveSku} deleteSku={this.deleteSku} vendors={this.props.vendors} />
           <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
         </form>
-        <Skus skus={this.state.data.skus} addSku={this.addSku} vendors={this.props.vendors} />
+
       </div>
     )
   }

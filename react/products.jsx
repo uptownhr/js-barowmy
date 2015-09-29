@@ -84,11 +84,10 @@ class Products extends Base{
     return(
       <div>
         <p>{this.state.error}</p>
-        <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
         <Product action={this.state.product_action} id={this.state.product_id} saveProduct={this.saveProduct} vendors={this.state.vendors} />
-        <ul>Products
-          {this.state.products.map( product => {
-            return <li onClick={this.editProduct.bind(this,product._id)}>{product.name}</li>
+        <ul>Products - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+          {this.state.products.map( (product,index)=> {
+            return <li key={index} onClick={this.editProduct.bind(this,product._id)}>{product.name}</li>
           })}
         </ul>
       </div>
