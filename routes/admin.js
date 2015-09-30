@@ -204,13 +204,14 @@ module.exports = function(router, passport){
         this.status = 500
       }
 
+      console.log( yield response.populate('products').execPopulate() )
       this.body = response
     })
     .post('/packages/edit', function *(next){
       let params = this.request.body
-      let res = yield Package.update({_id: params._id}, params)
+      yield Package.update({_id: params._id}, params)
 
-      this.body = res
+      this.body = yield Package.findOne(params).populate('products')
     })
 
   //check for authentication and redirect to /login

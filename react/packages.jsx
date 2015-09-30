@@ -1,6 +1,7 @@
 "use strict"
 const {Base,React} = require('./base')
 const Package = require('./package')
+const {Well,Grid,Row,Col} = require('react-bootstrap')
 
 class Packages extends Base{
   constructor(props){
@@ -57,8 +58,9 @@ class Packages extends Base{
           $.extend(pack, data)
         }
 
+        console.log(res)
         this.setState({
-          package_id: res._id,
+          package: res,
           package_action: 'edit',
           packages: this.state.packages
         })
@@ -76,18 +78,30 @@ class Packages extends Base{
     return(
       <div>
         <p>{this.state.error}</p>
-
-        <Package action={this.state.package_action}
-                 data={this.state.package}
-                 products={this.state.products}
-                 save={this.savePackage}
-          />
-
-        <ul>Packages - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
-          {this.state.packages.map( (pack,index)=> {
-            return <li key={index} onClick={this.editPackage.bind(this, index)}>{pack.name}</li>
-          })}
-        </ul>
+        <Grid fluid>
+          <Row>
+            <Col md={2}>
+              <ul>Packages - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+                {this.state.packages.map( (pack,index)=> {
+                  let prodNav
+                  if(pack.products.length > 0){
+                    prodNav = <ul>{pack.products.map( prod => <li>{prod.name}</li> )}</ul>
+                  }
+                  return <li key={index} onClick={this.editPackage.bind(this, index)}>{pack.name}{prodNav}</li>
+                })}
+              </ul>
+            </Col>
+            <Col md={8}>
+              <Well>
+                <Package action={this.state.package_action}
+                         data={this.state.package}
+                         products={this.state.products}
+                         save={this.savePackage}
+                  />
+                </Well>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   }

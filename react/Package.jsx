@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput} = require('react-bootstrap')
+const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
 
 class Package extends Base{
   constructor(props){
@@ -86,8 +86,10 @@ class Package extends Base{
               <option key={index} value={index}>{product.name}</option>
             )}
           </Input>
-          <Button onClick={this.addProduct}>Add Product</Button>
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={buttonText} />
+          <ButtonToolbar>
+            <Button bsSize="large" onClick={this.addProduct}>Add Product</Button>
+            <ButtonInput style={{marginLeft:"5px"}}type="submit" bsStyle="primary" bsSize="large" value={buttonText} />
+          </ButtonToolbar>
         </form>
       </div>
     )
