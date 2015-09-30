@@ -34,7 +34,7 @@ class Package extends Base{
         <ul>Images
           {this.props.images.map( (image,index) => {
             return (<li key={index}><img style={{width: '200px'}} src={image.url}/>
-              <input type="text" value={image.name} />
+              <input type="text" value={image.name} /> // TODO make name changeable
             </li>)
           })}
         </ul>

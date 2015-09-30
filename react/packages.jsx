@@ -86,7 +86,7 @@ class Packages extends Base{
                   if(pack.products.length > 0){
                     prodNav = <ul>{pack.products.map( (prod,index) => <li key={index}>{prod.name}</li> )}</ul>
                   }
-                  return <li key={index} onClick={this.editPackage.bind(this, index)}>{pack.name}{prodNav}</li>
+                  return <li key={index} onClick={this.editPackage.bind(this, index)}>{pack.name} {prodNav}</li>
                 })}
               </ul>
             </Col>
