@@ -65,7 +65,7 @@ class Admin extends Base{
 
     const View =
       <div>
-        <Nav bsStyle="pills" stacked activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>
+        <Nav bsStyle="pills" activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>
           {navItems.map( (nav,key) =>
             <NavItem eventKey={key} key={key} href={nav.path}>{nav.title}</NavItem>
           )}

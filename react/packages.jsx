@@ -58,7 +58,6 @@ class Packages extends Base{
           $.extend(pack, data)
         }
 
-        console.log(res)
         this.setState({
           package: res,
           package_action: 'edit',
@@ -85,7 +84,7 @@ class Packages extends Base{
                 {this.state.packages.map( (pack,index)=> {
                   let prodNav
                   if(pack.products.length > 0){
-                    prodNav = <ul>{pack.products.map( prod => <li>{prod.name}</li> )}</ul>
+                    prodNav = <ul>{pack.products.map( (prod,index) => <li key={index}>{prod.name}</li> )}</ul>
                   }
                   return <li key={index} onClick={this.editPackage.bind(this, index)}>{pack.name}{prodNav}</li>
                 })}

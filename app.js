@@ -8,7 +8,11 @@ const koa = require('koa'),
   passport = require('./passport'),
   routes = require('./routes'),
   _ = require('lodash'),
-  koaBody = require('koa-body')()
+  koaBody = require('koa-body')({
+    jsonLimit: '10mb',
+    formLimit: '10mb'
+  })
+
 
 const jade = new Jade({
   viewPath: config.viewPath,

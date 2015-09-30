@@ -1,6 +1,8 @@
 "use strict"
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
+const ImagePreview = require('./image-preview')
+const _ = require('lodash')
 
 class Package extends Base{
   constructor(props){
@@ -14,11 +16,15 @@ class Package extends Base{
       name: '',
       tag_line: '',
       description: '',
-      products: []
+      products: [],
+      images: []
     }
 
     $.extend(data,props.data)
-    return { data }
+    return {
+      data,
+      buttonState: true
+    }
   }
 
   componentWillReceiveProps(props){
@@ -40,11 +46,27 @@ class Package extends Base{
     this.setState(this.state)
   }
 
+  imageChange(images){
+    this.state.data.images = images
+    this.setState(this.state.data)
+  }
+
   addProduct(){
     let index = this.refs.add_product.getValue()
     let product = this.props.products[index]
     this.state.data.products.push(product)
     this.setState(this.state.data)
+  }
+
+  activateButton(e){
+    let buttonState
+    if(e.target.value){
+      buttonState = false
+    }else{
+      buttonState = true
+    }
+
+    this.setState({buttonState: buttonState})
   }
 
   render(){
@@ -74,20 +96,23 @@ class Package extends Base{
                  onChange={this.inputChange.bind(this, 'description')}
             />
 
-          <ul>Products
-            {this.state.data.products.map( (product,index) =>
-              <li key={index}>{product.name}</li>
-            )}
-          </ul>
 
-          <Input ref="add_product" type="select" label="Add Products" >
+          <ImagePreview images={this.state.data.images} onChange={this.imageChange} />
+
+          <Input ref="add_product" type="select" label="Add Products" onChange={this.activateButton}>
             <option>Select a product</option>
             {this.props.products.map( (product,index) =>
               <option key={index} value={index}>{product.name}</option>
             )}
           </Input>
+          <ul>Products
+            {this.state.data.products.map( (product,index) =>
+                <li key={index}>{product.name}</li>
+            )}
+          </ul>
+
           <ButtonToolbar>
-            <Button bsSize="large" onClick={this.addProduct}>Add Product</Button>
+            <Button bsSize="large" onClick={this.addProduct} disabled={this.state.buttonState} >Add Product</Button>
             <ButtonInput style={{marginLeft:"5px"}}type="submit" bsStyle="primary" bsSize="large" value={buttonText} />
           </ButtonToolbar>
         </form>

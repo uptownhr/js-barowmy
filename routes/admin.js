@@ -211,7 +211,8 @@ module.exports = function(router, passport){
       let params = this.request.body
       yield Package.update({_id: params._id}, params)
 
-      this.body = yield Package.findOne(params).populate('products')
+      let res = yield Package.findOne({_id: params._id}).populate('products')
+      this.body = res
     })
 
   //check for authentication and redirect to /login
