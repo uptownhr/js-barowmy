@@ -10,20 +10,18 @@ class Package extends Base{
   }
 
   initialState(props){
-
     let data = {
       name: '',
       tag_line: '',
       description: '',
+      products: []
     }
 
     $.extend(data,props.data)
-
     return { data }
   }
 
   componentWillReceiveProps(props){
-    console.log(props)
     this.setState( this.initialState(props) )
   }
 
@@ -40,6 +38,13 @@ class Package extends Base{
   inputChange(field, e ) {
     this.state.data[field] = e.target.value
     this.setState(this.state)
+  }
+
+  addProduct(){
+    let index = this.refs.add_product.getValue()
+    let product = this.props.products[index]
+    this.state.data.products.push(product)
+    this.setState(this.state.data)
   }
 
   render(){
@@ -64,10 +69,24 @@ class Package extends Base{
                  value={this.state.data.tag_line}
                  onChange={this.inputChange.bind(this, 'tag_line')}
             />
-          <Input type="textarea" label="Description" placeholder="Enter package description"
+          <Input type="textarea" labstael="Description" placeholder="Enter package description"
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
+
+          <ul>Products
+            {this.state.data.products.map( (product,index) =>
+              <li key={index}>{product.name}</li>
+            )}
+          </ul>
+
+          <Input ref="add_product" type="select" label="Add Products" >
+            <option>Select a product</option>
+            {this.props.products.map( (product,index) =>
+              <option key={index} value={index}>{product.name}</option>
+            )}
+          </Input>
+          <Button onClick={this.addProduct}>Add Product</Button>
           <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={buttonText} />
         </form>
       </div>

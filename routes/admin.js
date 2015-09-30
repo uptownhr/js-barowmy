@@ -189,7 +189,7 @@ module.exports = function(router, passport){
       this.body = yield Vendor.findOne({_id: this.params.id})
     })
     .get('/packages', function *(next){
-      this.body = yield Package.find().sort({created_at: -1})
+      this.body = yield Package.find().populate('products').sort({created_at: -1})
     })
     .post('/packages/new', function *(next){
       console.log('wtf')

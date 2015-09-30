@@ -79,6 +79,7 @@ class Packages extends Base{
 
         <Package action={this.state.package_action}
                  data={this.state.package}
+                 products={this.state.products}
                  save={this.savePackage}
           />
 
