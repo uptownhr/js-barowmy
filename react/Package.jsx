@@ -97,7 +97,7 @@ class Package extends Base{
             />
 
 
-          <ImagePreview images={this.state.data.images} onChange={this.imageChange} />
+          <ImagePreview images={this.state.data.images} onChange={this.imageChange} onDelete={this.deleteImage} />
 
           <Input ref="add_product" type="select" label="Add Products" onChange={this.activateButton}>
             <option>Select a product</option>
@@ -107,7 +107,7 @@ class Package extends Base{
           </Input>
           <ul>Products
             {this.state.data.products.map( (product,index) =>
-                <li key={index}>{product.name}</li>
+                <li key={index}>{product.name} - <span onClick={this.deleteProduct.bind(index)}>delete</span></li>
             )}
           </ul>
 
@@ -118,6 +118,14 @@ class Package extends Base{
         </form>
       </div>
     )
+  }
+  deleteProduct(index){
+    this.state.data.products.splice(index,1)
+    this.setState(this.state.data)
+  }
+  deleteImage(index){
+    this.state.data.images.splice(index,1)
+    this.setState(this.state.data)
   }
 }
 

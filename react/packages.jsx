@@ -79,7 +79,7 @@ class Packages extends Base{
         <p>{this.state.error}</p>
         <Grid fluid>
           <Row>
-            <Col md={2}>
+            <Col sm={4} md={2}>
               <ul>Packages - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
                 {this.state.packages.map( (pack,index)=> {
                   let prodNav
@@ -90,7 +90,7 @@ class Packages extends Base{
                 })}
               </ul>
             </Col>
-            <Col md={8}>
+            <Col sm={8} md={8}>
               <Well>
                 <Package action={this.state.package_action}
                          data={this.state.package}

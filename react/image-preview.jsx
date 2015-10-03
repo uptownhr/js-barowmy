@@ -33,13 +33,18 @@ class Package extends Base{
         <Input type="file" multiple onChange={this.imageChange} />
         <ul>Images
           {this.props.images.map( (image,index) => {
-            return (<li key={index}><img style={{width: '200px'}} src={image.url}/>
+            return (<li key={index}>
+              <img style={{width: '200px'}} src={image.url}/> - <span onClick={this.delete.bind(this,index)}>Delete</span>
               <input type="text" value={image.name} /> // TODO make name changeable
             </li>)
           })}
         </ul>
       </div>
     )
+  }
+
+  delete(index){
+    this.props.onDelete(index)
   }
 }
 
