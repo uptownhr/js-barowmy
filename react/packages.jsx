@@ -13,7 +13,6 @@ class Packages extends Base{
       packages: [],
       products: [],
       package_action: 'new',
-      package_id: null,
       package: {}
     }
   }
@@ -34,7 +33,6 @@ class Packages extends Base{
   showNew(){
     this.setState({
       package_action: 'new',
-      package_id: null,
       package: {}
     })
   }

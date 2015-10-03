@@ -1,7 +1,7 @@
 "use strict"
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
-const Skus = require('./skus')
+const Sku = require('./sku')
 
 class Product extends Base{
   constructor(props){
@@ -11,41 +11,63 @@ class Product extends Base{
   }
 
   initialState(props){
+    let data = {
+      name: '',
+      description: '',
+      skus: [],
+      images: []
+    }
+
+    $.extend(data,props.data)
     return {
-      data: {
-        name: '',
-        description: '',
-        skus: [],
-        images: []
-      },
-      error: null
+      data,
+      skuIndex: null,
+      skuAction: 'new',
+      buttonState: true
     }
-  }
-
-  componentWillReceiveProps(props){
-    if(props.id){
-      this.loadData(props.id)
-    }else{
-      this.setState( this.initialState(props) )
-    }
-
   }
 
   componentDidMount(){
-    if(this.props.action == 'edit'){
-      this.loadData(this.props.id)
-    }
+    this.setState( this.initialState(this.props) )
   }
 
-  loadData(id){
-    $.get(`/admin/products/${id}`)
-      .done(res => {
-        this.setState({data:res})
-      })
-      .fail(this.showError)
+  componentWillReceiveProps(props){
+    this.setState( this.initialState(props) )
   }
 
-  handleSubmit(e){
+  render(){
+    let skuData = this.state.data.skus[this.state.skuIndex]
+    return(
+      <div>
+        <form onSubmit={this.save}>
+          <h1>{this.props.action=='edit'? `Edit Product: ${this.state.data.name}`: `New Product: ${this.state.data.name}`}</h1>
+          <Input type="text" label="Name" placeholder="Enter product name"
+                 value={this.state.data.name}
+                 onChange={this.inputChange.bind(this, 'name')}
+            />
+          <Input type="textarea" label="Description" placeholder="Enter product description"
+                 value={this.state.data.description}
+                 onChange={this.inputChange.bind(this, 'description')}
+            />
+          <Sku action={this.state.skuAction}
+                data={skuData}
+                save={this.saveSku}
+                deleteSku={this.deleteSku}
+                vendors={this.props.vendors}
+            />
+          <ul>Skus
+            {this.state.data.skus.map( (sku,index) =>
+                <li onClick={this.editSku.bind(this,index)} key={index}>{sku.name} - <span onClick={this.deleteSku.bind(index)}>delete</span></li>
+            )}
+          </ul>
+          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+        </form>
+
+      </div>
+    )
+  }
+
+  save(e){
     e.preventDefault()
 
     this.props.saveProduct(this.state.data)
@@ -57,38 +79,32 @@ class Product extends Base{
   }
 
   saveSku(sku){
-    if(!sku._id){
+    if(this.state.skuIndex == null){
       this.state.data.skus.push(sku)
+    }else{
+      this.state.data.skus[this.state.skuIndex] = sku
     }
 
     this.setState(this.state.data)
   }
 
-  deleteSku(sku){
-    let index = this.state.data.skus.indexOf(sku)
+  deleteSku(index){
     this.state.data.skus.splice(index,1)
     this.setState(this.state.data)
   }
 
-  render(){
-    return(
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <h1>{this.props.action=='edit'? `Edit Product: ${this.state.data.name}`: `New Product: ${this.state.data.name}`}</h1>
-          <Input type="text" label="Name" placeholder="Enter product name"
-                 value={this.state.data.name}
-                 onChange={this.inputChange.bind(this, 'name')}
-            />
-          <Input type="textarea" label="Description" placeholder="Enter product description"
-                 value={this.state.data.description}
-                 onChange={this.inputChange.bind(this, 'description')}
-            />
-          <Skus skus={this.state.data.skus} saveSku={this.saveSku} deleteSku={this.deleteSku} vendors={this.props.vendors} />
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
-        </form>
+  editSku(index){
+    this.setState({
+      skuAction: 'edit',
+      skuIndex: index
+    })
+  }
 
-      </div>
-    )
+  newSku(){
+    this.setState({
+      skuAction: 'new',
+      skuIndex: null
+    })
   }
 }
 

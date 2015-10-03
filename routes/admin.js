@@ -25,7 +25,6 @@ module.exports = function(router, passport){
   //login
   router
     .get('/auth', function *(next){
-      console.log(this.req.user )
       if( this.req.user ){
         this.body = 'logged in'
       }else{
@@ -167,7 +166,7 @@ module.exports = function(router, passport){
       let params = this.request.body
       let res = yield Product.update({_id: params._id}, params)
 
-      this.body = res
+      this.body = yield Product.findOne({_id: params._id})
     })
     .get('/vendors', function *(next){
       this.body = yield Vendor.find().sort({created_at: -1})
@@ -198,7 +197,6 @@ module.exports = function(router, passport){
       this.body = yield Package.find().populate('products').sort({created_at: -1})
     })
     .post('/packages/new', function *(next){
-      console.log('wtf')
       let params = this.request.body
       let pack = new Package(params)
       let response = ''

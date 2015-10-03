@@ -12,8 +12,9 @@ class Products extends Base{
       error: '',
       vendors: [],
       products: [],
-      product_id: null,
-      product_action: 'new'
+      product: {},
+      product_action: 'new',
+      skuIndex: null
     }
   }
 
@@ -43,36 +44,8 @@ class Products extends Base{
   showNew(){
     this.setState({
       product_action: 'new',
-      product_id: null
+      product: {}
     })
-  }
-
-  editProduct(id){
-    this.setState({
-      product_action: 'edit',
-      product_id: id
-    })
-  }
-
-  saveProduct(data){
-    let url = this.state.product_action=='edit'? '/admin/products/edit':'/admin/products/new'
-
-    return $.post(url, data)
-      .done( res => {
-        if(this.state.product_action == 'new'){
-          this.state.products.unshift(res)
-        }else{
-          let product = this.state.products.filter( product => product._id == data._id)[0]
-          $.extend(product, data)
-        }
-
-        this.setState({
-          product_id: res._id,
-          product_action: 'edit',
-          products: this.state.products
-        })
-      })
-      .fail(this.showError)
   }
 
   showError(res){
@@ -92,21 +65,55 @@ class Products extends Base{
                 {this.state.products.map( (product,index)=> {
                   let skuNav
                   if(product.skus.length > 0){
-                    skuNav = <ul>{product.skus.map( (sku,index) => <li key={index}>{sku.name}</li> )}</ul>
+                    skuNav = <ul>{product.skus.map( (sku,index) => <li key={sku._id}>{sku.name}</li> )}</ul>
                   }
-                  return <li key={index} onClick={this.editProduct.bind(this,product._id)}>{product.name} {skuNav}</li>
+                  return <li key={product._id} onClick={this.editProduct.bind(this,index)}>{product.name}
+                    {skuNav}
+                  </li>
                 })}
               </ul>
             </Col>
             <Col sm={8} md={8}>
               <Well>
-                <Product action={this.state.product_action} id={this.state.product_id} saveProduct={this.saveProduct} vendors={this.state.vendors} />
+                <Product action={this.state.product_action}
+                         data={this.state.product}
+                         saveProduct={this.saveProduct}
+                         vendors={this.state.vendors}
+                  />
               </Well>
             </Col>
           </Row>
         </Grid>
       </div>
     )
+  }
+
+  editProduct(index){
+    this.setState({
+      product_action: 'edit',
+      product: this.state.products[index]
+    })
+  }
+  saveProduct(data){
+    let url = this.state.product_action=='edit'? '/admin/products/edit':'/admin/products/new'
+
+    return $.post(url, data)
+      .done( res => {
+        if(this.state.product_action == 'new'){
+          this.state.products.unshift(res)
+        }else{
+          let product = this.state.products.filter( product => product._id == data._id)[0]
+          $.extend(product, res)
+        }
+
+
+        this.setState({
+          product_id: res._id,
+          product_action: 'edit',
+          products: this.state.products
+        })
+      })
+      .fail(this.showError)
   }
 }
 

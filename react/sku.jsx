@@ -2,62 +2,38 @@
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
 
-class Skus extends Base{
+class Sku extends Base{
   constructor(props){
     super(props)
-    this.state = this.initialState()
+    this.state = this.initialState(props)
 
     this.durations = ['hourly','daily','weekly','monthly']
   }
 
-  initialState() {
+  initialState(props = {}) {
+
+    let data = {
+      vendor_id: '',
+      name: '',
+      duration: '',
+      price: '',
+      qty: ''
+    }
+
+    $.extend(data, props.data)
+
     return {
-      action: 'new',
-      data: {
-        vendor_id: '',
-        name: '',
-        duration: '',
-        price: '',
-        qty: ''
-      }
+      data
     }
   }
 
   componentWillReceiveProps(props){
-    this.setState( this.initialState() )
-  }
-
-  inputChange(field, e ) {
-    this.state.data[field] = e.target.value
-
-    this.setState({data: this.state.data})
-  }
-
-  saveSku(){
-    this.props.saveSku(this.state.data)
-  }
-
-  selectSku(index){
-    this.setState( {
-      data: this.props.skus[index],
-      action: 'edit'
-    } )
-  }
-
-  delete(){
-    this.props.deleteSku(this.state.data)
-    this.setState(this.initialState())
-  }
-
-  showNew(e){
-    e.preventDefault()
-    this.setState( this.initialState() )
+    this.setState( this.initialState(props) )
   }
 
   render(){
     return(
       <div>
-        <ul>SKUS - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
           <Input type="text" label="Name"
                  value={this.state.data.name}
                  onChange={this.inputChange.bind(this, 'name')} />
@@ -82,14 +58,21 @@ class Skus extends Base{
           <Input type="text" label="Qty"
                  value={this.state.data.qty}
                  onChange={this.inputChange.bind(this, 'qty')} />
-          {this.state.action=="new"? <Button onClick={this.saveSku}>Create SKU</Button>:<Button onClick={this.delete}>Delete</Button>}
-          {this.props.skus.map( (sku,index) => {
-            return <li key={index} onClick={this.selectSku.bind(this,index)}>{sku.name} - {sku.price} - {sku.duration} - {sku.qty}</li>
-          })}
-        </ul>
+          {this.props.action=="new"? <Button onClick={this.save}>Create SKU</Button>:<Button onClick={this.save}>Save</Button>}
       </div>
     )
   }
+
+  inputChange(field, e ) {
+    this.state.data[field] = e.target.value
+
+    this.setState({data: this.state.data})
+  }
+
+  save(){
+    this.props.save(this.state.data)
+  }
+
 }
 
-module.exports = Skus
+module.exports = Sku
