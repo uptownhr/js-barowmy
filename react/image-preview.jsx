@@ -35,7 +35,7 @@ class Package extends Base{
           {this.props.images.map( (image,index) => {
             return (<li key={index}>
               <img style={{width: '200px'}} src={image.url}/> - <span onClick={this.delete.bind(this,index)}>Delete</span>
-              <input type="text" value={image.name} /> // TODO make name changeable
+              <input type="text" value={image.name} onChange={this.update.bind(this,index)} />
             </li>)
           })}
         </ul>
@@ -45,6 +45,10 @@ class Package extends Base{
 
   delete(index){
     this.props.onDelete(index)
+  }
+
+  update(index,e){
+    this.props.onUpdate(index, e.target.value)
   }
 }
 

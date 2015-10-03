@@ -97,7 +97,11 @@ class Package extends Base{
             />
 
 
-          <ImagePreview images={this.state.data.images} onChange={this.imageChange} onDelete={this.deleteImage} />
+          <ImagePreview images={this.state.data.images}
+                        onChange={this.imageChange}
+                        onDelete={this.deleteImage}
+                        onUpdate={this.updateImage}
+            />
 
           <Input ref="add_product" type="select" label="Add Products" onChange={this.activateButton}>
             <option>Select a product</option>
@@ -125,6 +129,10 @@ class Package extends Base{
   }
   deleteImage(index){
     this.state.data.images.splice(index,1)
+    this.setState(this.state.data)
+  }
+  updateImage(index,newVal){
+    this.state.data.images[index].name = newVal
     this.setState(this.state.data)
   }
 }
