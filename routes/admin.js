@@ -185,6 +185,12 @@ module.exports = function(router, passport){
 
       this.body = response
     })
+    .post('/vendors/edit', function *(next){
+      let params = this.request.body
+      let res = yield Vendor.update({_id: params._id}, params)
+
+      this.body = res
+    })
     .get('/vendors/:id', function *(next){
       this.body = yield Vendor.findOne({_id: this.params.id})
     })

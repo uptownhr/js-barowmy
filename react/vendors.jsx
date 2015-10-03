@@ -1,6 +1,7 @@
 "use strict"
 const {Base,React} = require('./base')
 const Vendor = require('./vendor')
+const {Grid,Row,Col,Well}= require('react-bootstrap')
 
 class Vendors extends Base{
   constructor(props){
@@ -68,13 +69,22 @@ class Vendors extends Base{
     return(
       <div>
         <p>{this.state.error}</p>
-        <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
-        <Vendor action={this.state.vendor_action} id={this.state.vendor_id} saveVendor={this.saveVendor} />
-        <ul>Vendors
-          {this.state.vendors.map( vendor => {
-            return <li onClick={this.editVendor.bind(this,vendor._id)}>{vendor.name}</li>
-          })}
-        </ul>
+        <Grid fluid>
+          <Row>
+            <Col sm={4} md={2}>
+              <ul>Vendors - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+                {this.state.vendors.map( vendor => {
+                  return <li onClick={this.editVendor.bind(this,vendor._id)}>{vendor.name}</li>
+                })}
+              </ul>
+            </Col>
+            <Col sm={8} md={8}>
+              <Well>
+                <Vendor action={this.state.vendor_action} id={this.state.vendor_id} saveVendor={this.saveVendor} />
+              </Well>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 "use strict"
 const {Base,React} = require('./base')
 const Product = require('./product')
+const {Grid,Row,Col,Well} = require('react-bootstrap')
 
 class Products extends Base{
   constructor(props){
@@ -84,12 +85,26 @@ class Products extends Base{
     return(
       <div>
         <p>{this.state.error}</p>
-        <Product action={this.state.product_action} id={this.state.product_id} saveProduct={this.saveProduct} vendors={this.state.vendors} />
-        <ul>Products - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
-          {this.state.products.map( (product,index)=> {
-            return <li key={index} onClick={this.editProduct.bind(this,product._id)}>{product.name}</li>
-          })}
-        </ul>
+        <Grid fluid>
+          <Row>
+            <Col sm={4} md={2}>
+              <ul>Products - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+                {this.state.products.map( (product,index)=> {
+                  let skuNav
+                  if(product.skus.length > 0){
+                    skuNav = <ul>{product.skus.map( (sku,index) => <li key={index}>{sku.name}</li> )}</ul>
+                  }
+                  return <li key={index} onClick={this.editProduct.bind(this,product._id)}>{product.name} {skuNav}</li>
+                })}
+              </ul>
+            </Col>
+            <Col sm={8} md={8}>
+              <Well>
+                <Product action={this.state.product_action} id={this.state.product_id} saveProduct={this.saveProduct} vendors={this.state.vendors} />
+              </Well>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   }
