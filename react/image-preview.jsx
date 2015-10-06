@@ -30,7 +30,7 @@ class Package extends Base{
   render(){
     return(
       <div>
-        <Input type="file" multiple onChange={this.imageChange} />
+        <Input key={this.props.key} type="file" multiple onChange={this.imageChange} value={this.reset} />
         <ul>Images
           {this.props.images.map( (image,index) => {
             return (<li key={index}>

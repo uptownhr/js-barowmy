@@ -46,11 +46,6 @@ class Package extends Base{
     this.setState(this.state)
   }
 
-  imageChange(images){
-    this.state.data.images = images
-    this.setState(this.state.data)
-  }
-
   addProduct(){
     let index = this.refs.add_product.getValue()
     let product = this.props.products[index]
@@ -127,6 +122,12 @@ class Package extends Base{
     this.state.data.products.splice(index,1)
     this.setState(this.state.data)
   }
+
+  imageChange(images){
+    this.state.data.images = images
+    this.setState(this.state.data)
+  }
+
   deleteImage(index){
     this.state.data.images.splice(index,1)
     this.setState(this.state.data)

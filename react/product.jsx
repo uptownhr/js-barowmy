@@ -2,6 +2,7 @@
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
 const Sku = require('./sku')
+const ImagePreview = require('./image-preview')
 
 class Product extends Base{
   constructor(props){
@@ -49,6 +50,15 @@ class Product extends Base{
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
+
+          <ImagePreview key={this.state.data.name}
+                        images={this.state.data.images}
+                        onChange={this.imageChange}
+                        onDelete={this.deleteImage}
+                        onUpdate={this.updateImage}
+            />
+
+          <hr />
           <Sku action={this.state.skuAction}
                 data={skuData}
                 save={this.saveSku}
@@ -106,6 +116,21 @@ class Product extends Base{
       skuIndex: null
     })
   }
+
+  imageChange(images){
+    this.state.data.images = images
+    this.setState(this.state.data)
+  }
+
+  deleteImage(index){
+    this.state.data.images.splice(index,1)
+    this.setState(this.state.data)
+  }
+  updateImage(index,newVal){
+    this.state.data.images[index].name = newVal
+    this.setState(this.state.data)
+  }
+
 }
 
 module.exports = Product

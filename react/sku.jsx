@@ -36,7 +36,9 @@ class Sku extends Base{
       <div>
           <Input type="text" label="Name"
                  value={this.state.data.name}
-                 onChange={this.inputChange.bind(this, 'name')} />
+                 onChange={this.inputChange.bind(this, 'name')}
+                 placeholder="create a sku"
+            />
           <Input type="select" label="Vendor"
                  value={this.state.data.vendor_id}
                  onChange={this.inputChange.bind(this, 'vendor_id')} >
