@@ -6,7 +6,13 @@ const browserify = require('browserify');
 const watchify = require('watchify');
 const babelify = require('babelify');
 const source = require('vinyl-source-stream');
+const mongoose = require('mongoose');
+const config = require('./config');
+const User = require("./models/User");
 
+gulp.task('adduser', function(){
+  return createUser();
+});
 
 // this not only starts the app but will also monitor for file changes and
 // restart the app when changes are detected
@@ -54,6 +60,20 @@ const getBrowserifyInstance = function() {
   return b;
 }
 
+// clean up user table and recreate admin
+const createUser = function(){
+  mongoose.connect(config.mongodb);
+  User.remove({}, function(err) {
+    console.log('user table cleaned');
+  })
+  const admin = new User({
+    username: "admin",
+    password: "asdfasdf"
+  });
+
+  return admin.save();
+}
+
 // receives a browserify instance and bundles it
 const bundleBrowserify = function(b) {
   return b
@@ -70,4 +90,4 @@ const bundleBrowserify = function(b) {
 
 // running gulp (or in our ES6 case, node --harmony `which gulp`) will run the
 // task in this array
-gulp.task('default', ['nodemon', 'watchify']);
+gulp.task('default', ['nodemon', 'watchify', 'adduser']);

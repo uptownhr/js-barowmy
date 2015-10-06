@@ -3,4 +3,4 @@
 var app = require('./app'),
   mongoose = require('./db')
 
-app.listen(9999,console.log)
+app.listen(3000,console.log)
