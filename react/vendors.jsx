@@ -11,7 +11,7 @@ class Vendors extends Base{
       action: '',
       error: '',
       vendors: [],
-      vendor_id: null,
+      vendor: {},
       vendor_action: 'new'
     }
   }
@@ -24,17 +24,48 @@ class Vendors extends Base{
     })
   }
 
-  showNew(){
+  showError(res){
     this.setState({
-      vendor_action: 'new',
-      vendor_id: null
+      error: res.responseText
     })
   }
 
-  editVendor(id){
+  render(){
+    return(
+      <div>
+        <p>{this.state.error}</p>
+        <Grid fluid>
+          <Row>
+            <Col sm={4} md={2}>
+              <ul>Vendors - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+                {this.state.vendors.map( (vendor,index) => {
+                  return <li onClick={this.editVendor.bind(this, index)}>{vendor.name}</li>
+                })}
+              </ul>
+            </Col>
+            <Col sm={8} md={8}>
+              <Well>
+                <Vendor action={this.state.vendor_action} data={this.state.vendor} saveVendor={this.saveVendor} />
+              </Well>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
+    )
+  }
+
+  showNew(){
+    this.setState({
+      vendor_action: 'new',
+      vendor: {}
+    })
+  }
+
+  editVendor(index){
+    console.log(this.state.vendors[index])
     this.setState({
       vendor_action: 'edit',
-      vendor_id: id
+      vendor: this.state.vendors[index]
     })
   }
 
@@ -57,36 +88,6 @@ class Vendors extends Base{
         })
       })
       .fail(this.showError)
-  }
-
-  showError(res){
-    this.setState({
-      error: res.responseText
-    })
-  }
-
-  render(){
-    return(
-      <div>
-        <p>{this.state.error}</p>
-        <Grid fluid>
-          <Row>
-            <Col sm={4} md={2}>
-              <ul>Vendors - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
-                {this.state.vendors.map( vendor => {
-                  return <li onClick={this.editVendor.bind(this,vendor._id)}>{vendor.name}</li>
-                })}
-              </ul>
-            </Col>
-            <Col sm={8} md={8}>
-              <Well>
-                <Vendor action={this.state.vendor_action} id={this.state.vendor_id} saveVendor={this.saveVendor} />
-              </Well>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    )
   }
 }
 

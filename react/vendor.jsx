@@ -1,6 +1,7 @@
 "use strict"
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
+const ImagePreview = require('./image-preview')
 
 class Vendor extends Base{
   constructor(props){
@@ -10,42 +11,55 @@ class Vendor extends Base{
   }
 
   initialState(props){
+    let data = {
+      name: '',
+      description: '',
+      images: []
+    }
+
+    $.extend(data,props.data)
     return {
-      data: {
-        name: '',
-        description: '',
-        skus: [],
-        images: []
-      },
-      error: null
+      data
     }
-  }
-
-  componentWillReceiveProps(props){
-    if(props.id){
-
-      this.loadData(props.id)
-    }else{
-      this.setState( this.initialState(props) )
-    }
-
   }
 
   componentDidMount(){
-    if(this.props.action == 'edit'){
-      this.loadData(this.props.id)
-    }
+    this.setState( this.initialState(this.props) )
   }
 
-  loadData(id){
-    $.get(`/admin/vendors/${id}`)
-      .done(res => {
-        this.setState({data:res})
-      })
-      .fail(this.showError)
+  componentWillReceiveProps(props){
+    this.setState( this.initialState(props) )
   }
 
-  handleSubmit(e){
+  render(){
+    console.log(this.state,this.props)
+    return(
+      <div>
+        <form onSubmit={this.save}>
+          <h1>{this.props.action=='edit'? `Edit Vendor: ${this.state.data.name}`: `New Vendor: ${this.state.data.name}`}</h1>
+          <Input type="text" label="Name" placeholder="Enter vendor name"
+                 value={this.state.data.name}
+                 onChange={this.inputChange.bind(this, 'name')}
+            />
+          <Input type="textarea" label="Description" placeholder="Enter vendor description"
+                 value={this.state.data.description}
+                 onChange={this.inputChange.bind(this, 'description')}
+            />
+
+          <ImagePreview key={this.state.data.name}
+                        images={this.state.data.images}
+                        onChange={this.imageChange}
+                        onDelete={this.deleteImage}
+                        onUpdate={this.updateImage}
+            />
+
+          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+        </form>
+      </div>
+    )
+  }
+
+  save(e){
     e.preventDefault()
 
     this.props.saveVendor(this.state.data)
@@ -56,24 +70,21 @@ class Vendor extends Base{
     this.setState(this.state)
   }
 
-  render(){
-    return(
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <h1>{this.props.action=='edit'? `Edit Vendor: ${this.state.data.name}`: `New Vendor: ${this.state.data.name}`}</h1>
-          <Input type="text" label="Name" placeholder="Enter vendor name"
-                 value={this.state.data.name}
-                 onChange={this.inputChange.bind(this, 'name')}
-            />
-          <Input type="textarea" label="Description" placeholder="Enter vendor description"
-                 value={this.state.data.description}
-                 onChange={this.inputChange.bind(this, 'description')}
-            />
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
-        </form>
-      </div>
-    )
+  imageChange(images){
+    this.state.data.images = images
+    this.setState(this.state.data)
+  }
+
+  deleteImage(index){
+    this.state.data.images.splice(index,1)
+    this.setState(this.state.data)
+  }
+  updateImage(index,newVal){
+    this.state.data.images[index].name = newVal
+    this.setState(this.state.data)
   }
 }
+
+
 
 module.exports = Vendor
