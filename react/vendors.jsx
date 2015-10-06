@@ -62,7 +62,6 @@ class Vendors extends Base{
   }
 
   editVendor(index){
-    console.log(this.state.vendors[index])
     this.setState({
       vendor_action: 'edit',
       vendor: this.state.vendors[index]

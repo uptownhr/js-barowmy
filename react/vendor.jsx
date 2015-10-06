@@ -32,7 +32,6 @@ class Vendor extends Base{
   }
 
   render(){
-    console.log(this.state,this.props)
     return(
       <div>
         <form onSubmit={this.save}>
