@@ -78,17 +78,13 @@ class Dashboard extends React.Component{
 
         <Grid>
           <Row>
-            <Col>
-              <Row>
-                <Col md={1}>Users: {this.state.user}</Col>
-                <Col md={2}>Packages: {this.state.package}</Col>
-                <Col md={2}>Products: {this.state.product} </Col>
-                <Col md={2}>Vendors: {this.state.vendor} </Col>
-              </Row>
-              <Line data={this.state.chart} style={{width: '100%'}} redraw />
-            </Col>
+            <Col smOffset={2} sm={1}>Users: {this.state.user}</Col>
+            <Col sm={2}>Packages: {this.state.package}</Col>
+            <Col sm={2}>Products: {this.state.product} </Col>
+            <Col sm={2}>Vendors: {this.state.vendor} </Col>
           </Row>
         </Grid>
+        <Line data={this.state.chart} style={{width: '80%'}} redraw />
       </div>
     )
   }
