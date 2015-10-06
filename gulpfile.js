@@ -63,15 +63,17 @@ const getBrowserifyInstance = function() {
 // clean up user table and recreate admin
 const createUser = function(){
   mongoose.connect(config.mongodb);
-  User.remove({}, function(err) {
-    console.log('user table cleaned');
-  })
-  const admin = new User({
-    username: "admin",
-    password: "asdfasdf"
-  });
-
-  return admin.save();
+  return User.findOneAndUpdate( {username: 'admin'},
+    {
+      username: "admin",
+      password: "asdfasdf"
+    },{
+      upsert: true,
+      new: true
+    }, function(err,user){
+      console.log('user admin created', user)
+    }
+  )
 }
 
 // receives a browserify instance and bundles it

@@ -50,7 +50,6 @@ module.exports = function(router, passport){
         User.find(),
         Vendor.find()
       ]).spread( (Packages, Products, Users, Vendors) => {
-//        this.status = 200
 
         let userDates = Users.map( user => moment(user.created_at).format("YYYYMMDD") )
         let packageDates = Packages.map( pack => moment(pack.created_at).format("YYYYMMDD") )
