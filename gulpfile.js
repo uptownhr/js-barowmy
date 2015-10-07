@@ -10,58 +10,8 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const User = require("./models/User");
 
+
 gulp.task('adduser', function(){
-  return createUser();
-});
-
-// this not only starts the app but will also monitor for file changes and
-// restart the app when changes are detected
-gulp.task('nodemon', function() {
-  return nodemon({
-    script: 'server.js',
-    ignore: ['public', 'node_modules']
-  }).on('restart');
-});
-
-// one-off browserify task which is handy when debugging
-// node --harmony `which gulp` browserify
-gulp.task('browserify', function() {
-  const b = getBrowserifyInstance();
-  b.transform(babelify);
-  return bundleBrowserify(b);
-});
-
-// update bundle.js when changes detected in client-side js/jsx
-gulp.task('watchify', function() {
-  // create watchify instance wrapping our browserify instance
-  // re-run compile whenever watchify emits an update event
-  const b = getBrowserifyInstance();
-  const w = watchify(b);
-
-  w.transform(babelify);
-  w.on('update', function(event) {
-    console.log('update detected', event);
-    bundleBrowserify(w);
-  });
-  bundleBrowserify(w);
-});
-
-const getBrowserifyInstance = function() {
-  // create browserify instance
-  const b = browserify('react/main.jsx', {
-    debug: true,
-    extensions: ['.jsx'],
-
-    // watchify args
-    cache: {},
-    packageCache: {}
-  });
-
-  return b;
-}
-
-// clean up user table and recreate admin
-const createUser = function(){
   mongoose.connect(config.mongodb);
   return User.findOneAndUpdate( {username: 'admin'},
     {
@@ -74,22 +24,80 @@ const createUser = function(){
       console.log('user admin created', user)
     }
   )
+});
+
+// this not only starts the app but will also monitor for file changes and
+// restart the app when changes are detected
+gulp.task('nodemon', function() {
+  return nodemon({
+    script: 'server.js',
+    ignore: ['public', 'node_modules']
+  }).on('restart');
+});
+
+gulp.task('watch', function(){
+  var files = [
+    'react/admin/main.jsx',
+    'react/front/main.jsx'
+  ]
+
+})
+
+
+// update admin.js when changes detected in client-side js/jsx
+gulp.task('watch-admin', function() {
+  const b = getBrowserifyInstance('react/admin/main.jsx');
+  const w = watchify(b);
+
+  w.transform(babelify);
+  w.on('update', function(event) {
+    console.log('update detected', event);
+    bundleBrowserify(w, {name: 'admin.js', path: 'public'});
+  });
+  bundleBrowserify(w, {name: 'admin.js', path: 'public'});
+});
+
+// update front.js when changes detected in client-side js/jsx
+gulp.task('watch-front', function() {
+  const b = getBrowserifyInstance('react/front/main.jsx');
+  const w = watchify(b);
+
+  w.transform(babelify);
+  w.on('update', function(event) {
+    console.log('update detected', event);
+    bundleBrowserify(w, {name: 'front.js', path: 'public'});
+  });
+
+  bundleBrowserify(w, {name: 'front.js', path: 'public'})
+});
+
+
+// returns browserify instance of file
+const getBrowserifyInstance = function(watch_file) {
+  // create browserify instance
+  const b = browserify(watch_file, {
+    debug: true,
+    extensions: ['.jsx'],
+
+    // watchify args
+    cache: {},
+    packageCache: {}
+  });
+  return b;
 }
 
-// receives a browserify instance and bundles it
-const bundleBrowserify = function(b) {
+// receives a browserify instance and bundles it to target
+const bundleBrowserify = function(b, target) {
   return b
     .bundle(function(err){
       if(err){
         console.log(err.message);
       }else{
-        console.log('bundle done');
+        console.log('bundle done', target);
       }
     })
-    .pipe(source('app.js'))
-    .pipe(gulp.dest('public'));
+    .pipe(source(target.name))
+    .pipe(gulp.dest(target.path));
 };
 
-// running gulp (or in our ES6 case, node --harmony `which gulp`) will run the
-// task in this array
-gulp.task('default', ['nodemon', 'watchify', 'adduser']);
+gulp.task('default', ['nodemon', 'watch-admin', 'watch-front']);

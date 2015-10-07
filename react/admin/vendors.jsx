@@ -39,7 +39,7 @@ class Vendors extends Base{
             <Col sm={4} md={2}>
               <ul>Vendors - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
                 {this.state.vendors.map( (vendor,index) => {
-                  return <li onClick={this.editVendor.bind(this, index)}>{vendor.name}</li>
+                  return <li key={index} onClick={this.editVendor.bind(this, index)}>{vendor.name}</li>
                 })}
               </ul>
             </Col>

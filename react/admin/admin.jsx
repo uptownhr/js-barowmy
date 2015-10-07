@@ -6,7 +6,7 @@ const Packages = require('./packages')
 const Products = require('./products')
 const Vendors = require('./vendors')
 
-const {Nav, NavItem} = require('react-bootstrap')
+const {Navbar, Nav, NavItem} = require('react-bootstrap')
 
 class Admin extends Base{
   constructor(props){
@@ -65,11 +65,16 @@ class Admin extends Base{
 
     const View =
       <div>
-        <Nav bsStyle="pills" activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>
-          {navItems.map( (nav,key) =>
-            <NavItem eventKey={key} key={key} href={nav.path}>{nav.title}</NavItem>
-          )}
-        </Nav>
+        <Navbar>
+          <Nav bsStyle="pills" activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>
+            {navItems.map( (nav,key) =>
+                <NavItem eventKey={key} key={key} href={nav.path}>{nav.title}</NavItem>
+            )}
+          </Nav>
+          <Nav right>
+            <NavItem href="/admin/logout">Logout</NavItem>
+          </Nav>
+        </Navbar>
         {pageComponent}
       </div>
 

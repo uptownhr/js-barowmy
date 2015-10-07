@@ -38,6 +38,7 @@ module.exports = function(router, passport){
     .get('/logout', function *(next){
       this.req.logOut()
       this.body = 'logged out'
+      this.redirect('/admin')
     })
 
   //api

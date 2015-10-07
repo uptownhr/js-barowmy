@@ -1,19 +1,9 @@
-html
-  head
-    link(rel="stylesheet" type="text/css" href="/dist/css/bootstrap.min.css")
-    link(rel="stylesheet" type="text/css" href="https://bootswatch.com/darkly/bootstrap.min.css")
-    link(rel="stylesheet" type="text/css" href="/dist/css/main.css")
-  body
-    div.jumbotron.text-center
-      h1 Barowmy Admin
-      form(method="POST" action="/admin/auth")
-        fieldset
-          legend Login
-          .form-group
-            label Username
-            input.form-control(type="text" name="username")
-          .form-group
-            label Password
-            input.form-control(type="password" name="password")
-          .form-group
-            input.btn.btn-primary(type="submit" value="Login")
+extends layout
+
+block body
+  div.jumbotron.text-center
+    h1 Barowmy
+    p Rental Directory
+  div
+    input(type=text name="search" placeholder="search")
+    input(type=text name="location" placeholder="location")
