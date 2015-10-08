@@ -2,6 +2,8 @@
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
+const Tags = require('./tags')
+
 
 class Vendor extends Base{
   constructor(props){
@@ -14,7 +16,8 @@ class Vendor extends Base{
     let data = {
       name: '',
       description: '',
-      images: []
+      images: [],
+      tags: []
     }
 
     $.extend(data,props.data)
@@ -43,6 +46,11 @@ class Vendor extends Base{
           <Input type="textarea" label="Description" placeholder="Enter vendor description"
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
+            />
+
+          <Tags key={this.state.data._id}
+                data={this.state.data.tags}
+                add={this.addTag}
             />
 
           <ImagePreview key={this.state.data.name}
@@ -80,6 +88,11 @@ class Vendor extends Base{
   }
   updateImage(index,newVal){
     this.state.data.images[index].name = newVal
+    this.setState(this.state.data)
+  }
+
+  addTag(text){
+    this.state.data.tags.push(text)
     this.setState(this.state.data)
   }
 }
