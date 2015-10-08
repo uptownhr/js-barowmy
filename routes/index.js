@@ -61,6 +61,11 @@ module.exports = function(router){
 
       this.render('tag', {tag, vendors, locations})
     })
+    .get('/vendor/:vendor', function *(next){
+      let vendor = yield Vendor.findOne({name: this.params.vendor})
+      console.log(vendor)
+      this.render('vendor', {vendor})
+    })
 
   return router
 }

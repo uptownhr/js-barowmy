@@ -16,11 +16,15 @@ class Tags extends Base{
                placeholder="add tags"
                onKeyDown={this.handleEnter}
           />
-        <ul>Tags
-          {this.props.data.map( (tag,index) => <li key={index}>{tag}</li> )}
+        <ul>
+          {this.props.data.map( (tag,index) => <li key={index}>{tag} - <span onClick={this.delete.bind(this,index)}>delete</span></li> )}
         </ul>
       </div>
     )
+  }
+
+  delete(index){
+    this.props.delete(index)
   }
 
   handleEnter(e){
@@ -28,6 +32,7 @@ class Tags extends Base{
     if( e.keyCode == 13 && text.length > 0 ){
       e.preventDefault()
       this.props.add(text)
+      e.target.value = ''
     }
   }
 

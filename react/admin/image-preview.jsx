@@ -31,11 +31,15 @@ class Package extends Base{
     return(
       <div>
         <Input key={this.props.key} type="file" multiple onChange={this.imageChange} value={this.reset} />
-        <ul>Images
+        <ul>
           {this.props.images.map( (image,index) => {
             return (<li key={index}>
-              <img style={{width: '200px'}} src={image.url}/> - <span onClick={this.delete.bind(this,index)}>Delete</span>
+              <img style={{width: '200px'}} src={image.url}/>
+              <br/>
               <input type="text" value={image.name} onChange={this.update.bind(this,index)} />
+              <br/>
+              <span onClick={this.delete.bind(this,index)}>Delete</span>
+
             </li>)
           })}
         </ul>

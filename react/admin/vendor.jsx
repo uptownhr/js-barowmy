@@ -48,11 +48,16 @@ class Vendor extends Base{
                  onChange={this.inputChange.bind(this, 'description')}
             />
 
+          <hr />
+          <label>Tags</label>
           <Tags key={this.state.data._id}
                 data={this.state.data.tags}
                 add={this.addTag}
+                delete={this.deleteTag}
             />
 
+          <hr />
+          <label>Images</label>
           <ImagePreview key={this.state.data.name}
                         images={this.state.data.images}
                         onChange={this.imageChange}
@@ -93,6 +98,11 @@ class Vendor extends Base{
 
   addTag(text){
     this.state.data.tags.push(text)
+    this.setState(this.state.data)
+  }
+
+  deleteTag(index){
+    this.state.data.tags.splice(index,1)
     this.setState(this.state.data)
   }
 }
