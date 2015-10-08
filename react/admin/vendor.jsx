@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput} = require('react-bootstrap')
+const {Input,Button,ButtonInput,Row,Col} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
 const Location = require('./vendor-location')
 
@@ -54,11 +54,21 @@ class Vendor extends Base{
                         onUpdate={this.updateImage}
             />
 
-          <Location locations={this.state.data.locations}
-                    onChange={this.addLocation}
-                    onDelete={this.deleteLocation}
-                    onUpdate={this.updateLocation}
-            />
+          <Row>
+            <Col sm={4} md={4}>
+              <ul>Locations - <a href="#">Add new </a>
+                {this.state.data.locations.map( (location, index) => {
+                  return <li key={index} >{location.name}</li>
+                })}
+              </ul>
+            </Col>
+            <Location locations={this.state.data.locations}
+                      onChange={this.addLocation}
+                      onDelete={this.deleteLocation}
+                      onUpdate={this.updateLocation}
+              />
+          </Row>
+
 
           <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
         </form>

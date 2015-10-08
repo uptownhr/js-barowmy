@@ -11,11 +11,7 @@ class VendorLocation extends Base {
 
   render(){
     return(
-        <Row>
-          <Col sm={4} md={4}>
-            <ul>Locations - <a href="#">Add new </a>
-            </ul>
-          </Col>
+
           <Col sm={8} md={8}>
             <Input label="Location" wrapperClassName="wrapper">
               <Row>
@@ -87,7 +83,6 @@ class VendorLocation extends Base {
               </Row>
             </Input>
           </Col>
-        </Row>
     )
   }
 
@@ -97,6 +92,7 @@ class VendorLocation extends Base {
     console.log(this.locations)
     this.props.onChange(this.locations)
   }
+
 
   updateLocation(index,e){
     e.preventDefault()
@@ -110,6 +106,16 @@ class VendorLocation extends Base {
 
   inputChange(field, e){
     this.location[field] = e.target.value
+    //if(field != 'coordinates'){
+    //  this.location[field] = e.target.value
+    //}else{
+    //  var coord = e.target.value.split(',')
+    //  this.location[field] = {
+    //    type: "Point",
+    //    coordinates: [parseFloat(coord[0]),parseFloat(coord[1])]
+    //  }
+    //}
+
   }
 }
 

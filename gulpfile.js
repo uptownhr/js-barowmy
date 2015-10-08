@@ -100,4 +100,4 @@ const bundleBrowserify = function(b, target) {
     .pipe(gulp.dest(target.path));
 };
 
-gulp.task('default', ['nodemon', 'watch-admin', 'watch-front']);
+gulp.task('default', ['nodemon', 'watch-admin', 'watch-front','adduser']);
