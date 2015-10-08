@@ -70,7 +70,7 @@ class Vendors extends Base{
 
   saveVendor(data){
     let url = this.state.vendor_action=='edit'? '/admin/vendors/edit':'/admin/vendors/new'
-
+    console.log(JSON.stringify(data))
     return $.post(url, data)
       .done( res => {
         if(this.state.vendor_action == 'new'){

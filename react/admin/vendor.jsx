@@ -2,6 +2,7 @@
 const {React,Base} = require('./base')
 const {Input,Button,ButtonInput} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
+const Location = require('./vendor-location')
 
 class Vendor extends Base{
   constructor(props){
@@ -14,6 +15,7 @@ class Vendor extends Base{
     let data = {
       name: '',
       description: '',
+      locations: [],
       images: []
     }
 
@@ -52,6 +54,12 @@ class Vendor extends Base{
                         onUpdate={this.updateImage}
             />
 
+          <Location locations={this.state.data.locations}
+                    onChange={this.addLocation}
+                    onDelete={this.deleteLocation}
+                    onUpdate={this.updateLocation}
+            />
+
           <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
         </form>
       </div>
@@ -80,6 +88,19 @@ class Vendor extends Base{
   }
   updateImage(index,newVal){
     this.state.data.images[index].name = newVal
+    this.setState(this.state.data)
+  }
+
+  addLocation(locations){
+    this.state.data.locations = locations
+    this.setState(this.state.data)
+  }
+  deleteLocation(index){
+    this.state.data.locations.splice(index,1)
+    this.setState(this.state.data)
+  }
+  updateLocation(index,newVal){
+    this.state.locations[index] = newVal
     this.setState(this.state.data)
   }
 }
