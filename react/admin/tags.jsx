@@ -8,7 +8,6 @@ class Tags extends Base{
   }
 
   render(){
-    console.log(this.props.data)
     return(
       <div>
         <Input key={this.props.key}

@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput} = require('react-bootstrap')
+const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
 const Tags = require('./tags')
 
@@ -65,7 +65,10 @@ class Vendor extends Base{
                         onUpdate={this.updateImage}
             />
 
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+          <ButtonToolbar>
+            {this.props.action == 'edit' ? <Button bsStyle="danger" bsSize="large" onClick={this.delete}>Delete</Button> : ''}
+            <ButtonInput style={{marginLeft: '5px'}} type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+          </ButtonToolbar>
         </form>
       </div>
     )
@@ -75,6 +78,10 @@ class Vendor extends Base{
     e.preventDefault()
 
     this.props.saveVendor(this.state.data)
+  }
+
+  delete(){
+    this.props.deleteVendor(this.state.data)
   }
 
   inputChange(field, e ) {
