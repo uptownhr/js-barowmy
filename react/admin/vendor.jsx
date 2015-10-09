@@ -3,6 +3,7 @@ const {React,Base} = require('./base')
 const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
 const Tags = require('./tags')
+const Locations = require('./locations')
 
 
 class Vendor extends Base{
@@ -16,6 +17,10 @@ class Vendor extends Base{
     let data = {
       name: '',
       description: '',
+      phone: '',
+      email: '',
+      website: '',
+      locations: [],
       images: [],
       tags: []
     }
@@ -47,6 +52,20 @@ class Vendor extends Base{
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
+          <Input type="text" label="phone" placehol="Enter phone"
+                 value={this.state.data.phone}
+                 onChange={this.inputChange.bind(this, 'phone')}
+            />
+
+          <Input type="text" label="email" placehol="Enter email"
+                 value={this.state.data.email}
+                 onChange={this.inputChange.bind(this, 'email')}
+            />
+
+          <Input type="text" label="website" placehol="Enter website"
+                 value={this.state.data.website}
+                 onChange={this.inputChange.bind(this, 'website')}
+            />
 
           <hr />
           <label>Tags</label>
@@ -64,6 +83,13 @@ class Vendor extends Base{
                         onDelete={this.deleteImage}
                         onUpdate={this.updateImage}
             />
+
+          <hr />
+          <label>Locations</label>
+          <Locations key={this.state.data.name + "loc"}
+                     data={this.state.data.locations}
+            />
+
 
           <ButtonToolbar>
             {this.props.action == 'edit' ? <Button bsStyle="danger" bsSize="large" onClick={this.delete}>Delete</Button> : ''}

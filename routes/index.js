@@ -63,7 +63,6 @@ module.exports = function(router){
     })
     .get('/vendor/:vendor', function *(next){
       let vendor = yield Vendor.findOne({name: this.params.vendor})
-      console.log(vendor)
       this.render('vendor', {vendor})
     })
 

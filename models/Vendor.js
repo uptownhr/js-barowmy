@@ -10,6 +10,9 @@ const locationSchema = new mongoose.Schema({
 const vendorSchema = new mongoose.Schema({
   name: {type: String},
   description: {type: String},
+  phone: {type: String},
+  email: {type: String},
+  website: {type: String},
   locations: [locationSchema],
   images: [imageSchema],
   tags: [],
