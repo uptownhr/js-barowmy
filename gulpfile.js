@@ -31,7 +31,7 @@ gulp.task('adduser', function(){
 gulp.task('nodemon', function() {
   return nodemon({
     script: 'server.js',
-    ignore: ['public', 'node_modules']
+    ignore: ['public', 'node_modules', 'react']
   }).on('restart');
 });
 
@@ -77,7 +77,7 @@ const getBrowserifyInstance = function(watch_file) {
   // create browserify instance
   const b = browserify(watch_file, {
     debug: true,
-    extensions: ['.jsx'],
+    extensions: ['.jsx','js'],
 
     // watchify args
     cache: {},

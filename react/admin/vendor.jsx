@@ -4,6 +4,7 @@ const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
 const Tags = require('./tags')
 const Locations = require('./locations')
+const {vendorActions, vendorStore} = require('../alt/Vendor')
 
 
 class Vendor extends Base{
@@ -102,12 +103,16 @@ class Vendor extends Base{
 
   save(e){
     e.preventDefault()
+    if(this.props.action == "edit"){
+      vendorActions.save(this.state.data)
+    }else{
+      vendorActions.add(this.state.data)
+    }
 
-    this.props.saveVendor(this.state.data)
   }
 
   delete(){
-    this.props.deleteVendor(this.state.data)
+    vendorActions.delete(this.state.data)
   }
 
   inputChange(field, e ) {
