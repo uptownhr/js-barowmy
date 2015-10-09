@@ -190,6 +190,13 @@ module.exports = function(router, passport){
 
       this.body = res
     })
+    .post('/vendors/delete', function *(next){
+      let params = this.request.body
+      let res = yield Vendor.remove({_id: params._id}).exec()
+      this.body = res
+      /*let res = yield Vendor.find({_id: this.params._id}).remove().exec()
+      this.body = res*/
+    })
     .get('/vendors/:id', function *(next){
       this.body = yield Vendor.findOne({_id: this.params.id})
     })

@@ -45,7 +45,11 @@ class Vendors extends Base{
             </Col>
             <Col sm={8} md={8}>
               <Well>
-                <Vendor action={this.state.vendor_action} data={this.state.vendor} saveVendor={this.saveVendor} />
+                <Vendor action={this.state.vendor_action}
+                        data={this.state.vendor}
+                        saveVendor={this.saveVendor}
+                        deleteVendor={this.deleteVendor}
+                  />
               </Well>
             </Col>
           </Row>
@@ -81,12 +85,27 @@ class Vendors extends Base{
         }
 
         this.setState({
-          vendor_id: res._id,
           vendor_action: 'edit',
           vendors: this.state.vendors
         })
       })
       .fail(this.showError)
+  }
+
+  deleteVendor(vendor){
+    return $.post('/admin/vendors/delete', {_id: vendor._id})
+      .done( res => {
+        let index = this.state.vendors.findIndex( (v) => v._id == vendor._id )
+
+        vendor = this.state.vendors.splice(index,1)
+        this.setState({
+          vendors: this.state.vendors,
+          vendor_action: 'new',
+          vendor: {}
+        })
+      })
+      .fail(this.showError)
+
   }
 }
 

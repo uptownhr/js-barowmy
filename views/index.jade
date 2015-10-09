@@ -1,9 +1,30 @@
 extends layout
 
 block body
-  div.jumbotron.text-center
+  .jumbotron.text-center
     h1 Barowmy
     p Rental Directory
-  div
-    input(type=text name="search" placeholder="search")
-    input(type=text name="location" placeholder="location")
+  .container-fluid.text-center
+    .row
+      .col-sm-4
+        h2 Tags
+      .col-sm-4
+        h2 Locations
+      .col-sm-4
+        h2 Vendors
+    .row
+      .col-sm-4
+        ul.list-unstyled
+          each tag in tags
+            li
+              a(href="/tag/#{tag.name}")=tag.name
+      .col-sm-4
+        ul.list-unstyled
+          each location in locations
+            li testing
+      .col-sm-4
+        ul.list-unstyled
+          each vendor in vendors
+            li
+              a(href="/vendor/#{vendor.name}")=vendor.name
+

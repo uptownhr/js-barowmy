@@ -1,0 +1,21 @@
+extends layout
+
+block body
+  .jumbotron.text-center
+    h1=tag
+  .container-fluid.text-center
+    .row
+      .col-sm-6
+        h2 Vendors
+      .col-sm-6
+        h2 Locations
+    .row
+      .col-sm-6
+        ul.list-unstyled
+          each vendor in vendors
+            li
+            a(href="/vendor/#{vendor.name}")=vendor.name
+      .col-sm-6
+        ul.list-unstyled
+          each location in locations
+            li=location.name

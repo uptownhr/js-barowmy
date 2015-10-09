@@ -7,12 +7,10 @@ var secret = require('./secret');
 var User = require('./models/User');
 
 passport.serializeUser(function(user, done) {
-  console.log('serializer')
   done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('deserializer')
   User.findById(id, function(err, user) {
     done(err, user);
   });

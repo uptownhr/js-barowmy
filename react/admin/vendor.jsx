@@ -1,8 +1,10 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput,Row,Col} = require('react-bootstrap')
+const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
-const Location = require('./vendor-location')
+const Tags = require('./tags')
+const Locations = require('./locations')
+
 
 class Vendor extends Base{
   constructor(props){
@@ -15,8 +17,12 @@ class Vendor extends Base{
     let data = {
       name: '',
       description: '',
+      phone: '',
+      email: '',
+      website: '',
       locations: [],
-      images: []
+      images: [],
+      tags: []
     }
 
     $.extend(data,props.data)
@@ -46,7 +52,31 @@ class Vendor extends Base{
                  value={this.state.data.description}
                  onChange={this.inputChange.bind(this, 'description')}
             />
+          <Input type="text" label="phone" placehol="Enter phone"
+                 value={this.state.data.phone}
+                 onChange={this.inputChange.bind(this, 'phone')}
+            />
 
+          <Input type="text" label="email" placehol="Enter email"
+                 value={this.state.data.email}
+                 onChange={this.inputChange.bind(this, 'email')}
+            />
+
+          <Input type="text" label="website" placehol="Enter website"
+                 value={this.state.data.website}
+                 onChange={this.inputChange.bind(this, 'website')}
+            />
+
+          <hr />
+          <label>Tags</label>
+          <Tags key={this.state.data._id}
+                data={this.state.data.tags}
+                add={this.addTag}
+                delete={this.deleteTag}
+            />
+
+          <hr />
+          <label>Images</label>
           <ImagePreview key={this.state.data.name}
                         images={this.state.data.images}
                         onChange={this.imageChange}
@@ -54,23 +84,17 @@ class Vendor extends Base{
                         onUpdate={this.updateImage}
             />
 
-          <Row>
-            <Col sm={4} md={4}>
-              <ul>Locations - <a href="#">Add new </a>
-                {this.state.data.locations.map( (location, index) => {
-                  return <li key={index} >{location.name}</li>
-                })}
-              </ul>
-            </Col>
-            <Location locations={this.state.data.locations}
-                      onChange={this.addLocation}
-                      onDelete={this.deleteLocation}
-                      onUpdate={this.updateLocation}
-              />
-          </Row>
+          <hr />
+          <label>Locations</label>
+          <Locations key={this.state.data.name + "loc"}
+                     data={this.state.data.locations}
+            />
 
 
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+          <ButtonToolbar>
+            {this.props.action == 'edit' ? <Button bsStyle="danger" bsSize="large" onClick={this.delete}>Delete</Button> : ''}
+            <ButtonInput style={{marginLeft: '5px'}} type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+          </ButtonToolbar>
         </form>
       </div>
     )
@@ -80,6 +104,10 @@ class Vendor extends Base{
     e.preventDefault()
 
     this.props.saveVendor(this.state.data)
+  }
+
+  delete(){
+    this.props.deleteVendor(this.state.data)
   }
 
   inputChange(field, e ) {
@@ -101,16 +129,13 @@ class Vendor extends Base{
     this.setState(this.state.data)
   }
 
-  addLocation(locations){
-    this.state.data.locations = locations
+  addTag(text){
+    this.state.data.tags.push(text)
     this.setState(this.state.data)
   }
-  deleteLocation(index){
-    this.state.data.locations.splice(index,1)
-    this.setState(this.state.data)
-  }
-  updateLocation(index,newVal){
-    this.state.locations[index] = newVal
+
+  deleteTag(index){
+    this.state.data.tags.splice(index,1)
     this.setState(this.state.data)
   }
 }
