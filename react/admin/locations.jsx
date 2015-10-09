@@ -36,12 +36,7 @@ class Locations extends Base{
   }
 
   handleKeyPress(e){
-    let keyCode = e.keyCode,
-      text = e.target.value,
-      address
-
     address = addressit(text)
-    console.log(address)
     this.setState(address)
   }
 
