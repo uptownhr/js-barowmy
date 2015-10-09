@@ -1,11 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const Login = require('./login')
-const Dashboard = require('./dashboard')
-const Packages = require('./packages')
-const Products = require('./products')
-const Vendors = require('./vendors')
-
+const { Router, Link } = require('react-router')
 const {Navbar, Nav, NavItem} = require('react-bootstrap')
 
 class Admin extends Base{
@@ -13,8 +8,7 @@ class Admin extends Base{
     super(props)
 
     this.state = {
-      loggedIn: props.loggedIn || false,
-      navSelectedKey: 0
+      loggedIn: props.loggedIn || false
     }
   }
 
@@ -26,18 +20,10 @@ class Admin extends Base{
     this.setState({loggedIn: true})
   }
 
-  navSelect(key, path){
-    this.setState({
-      navSelectedKey: key
-    })
-  }
-
   render(){
-    if( !this.state.loggedIn ) return <Login loggedIn={this.loggedIn} />
-
     const navItems = [
       {
-        path: '/Dashboard',
+        path: '/dashboard',
         title: 'Dashboard'
       },
       {
@@ -54,19 +40,12 @@ class Admin extends Base{
       }
     ]
 
-    const currentPage = navItems[this.state.navSelectedKey].title
-    let pageComponent
-    switch( currentPage ){
-      case 'Dashboard': pageComponent = <Dashboard />; break;
-      case 'Packages': pageComponent = <Packages />; break;
-      case 'Products': pageComponent = <Products />; break;
-      case 'Vendors': pageComponent = <Vendors />; break;
-    }
-
-    const View =
+    const navKey = navItems.findIndex( n => n.path == this.props.location.pathname )
+    
+    return (
       <div>
         <Navbar>
-          <Nav bsStyle="pills" activeKey={this.state.navSelectedKey} onSelect={this.navSelect}>
+          <Nav bsStyle="pills" activeKey={navKey} onSelect={this.props.history.pushState}>
             {navItems.map( (nav,key) =>
                 <NavItem eventKey={key} key={key} href={nav.path}>{nav.title}</NavItem>
             )}
@@ -75,13 +54,7 @@ class Admin extends Base{
             <NavItem href="/admin/logout">Logout</NavItem>
           </Nav>
         </Navbar>
-        {pageComponent}
-      </div>
-
-
-    return (
-      <div>
-        {View}
+        {this.props.children}
       </div>
     )
   }
