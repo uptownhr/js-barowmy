@@ -88,6 +88,8 @@ class Vendor extends Base{
           <label>Locations</label>
           <Locations key={this.state.data.name + "loc"}
                      data={this.state.data.locations}
+                     add={this.addLocation}
+                     delete={this.deleteLocation}
             />
 
 
@@ -136,6 +138,17 @@ class Vendor extends Base{
 
   deleteTag(index){
     this.state.data.tags.splice(index,1)
+    this.setState(this.state.data)
+  }
+
+  addLocation(location){
+    this.state.data.locations.push(location)
+    this.setState(this.state.data)
+    console.log(this.state.data.locations)
+  }
+
+  deleteLocation(index){
+    this.state.data.locations.splice(index,1)
     this.setState(this.state.data)
   }
 }
