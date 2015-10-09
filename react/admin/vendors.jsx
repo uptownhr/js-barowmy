@@ -69,6 +69,7 @@ class Vendors extends Base{
       vendor: this.state.vendors[index]
     })
   }
+
 }
 
 module.exports = Vendors

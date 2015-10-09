@@ -3,7 +3,13 @@ const imageSchema = require('./imageSchema')
 
 const locationSchema = new mongoose.Schema({
   name: {type: String},
-  coordinates: {type: [Number], index:'2dsphere'},
+  coordinates: {type: String},
+  number: {type: Number},
+  street: {type: String},
+  regions: {type: [String]},
+  state: {type: String},
+  postalcode: {type: String},
+  text: {type: String},
   created_at: {type: Date, default: Date.now }
 })
 
