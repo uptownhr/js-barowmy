@@ -28,7 +28,6 @@ class VendorActions{
   delete(vendor){
     $.post('/admin/vendors/delete', {_id: vendor._id})
       .done(res =>{
-        console.log('deleted', res,vendor)
         this.dispatch(vendor)
       })
   }
@@ -73,9 +72,7 @@ class VendorStore{
   }
 
   save(vendor){
-    let old_vendor = this.vendors.find( v => {
-      v._id == vendor._id
-    })
+    let old_vendor = this.vendors.find( v => v._id == vendor._id )
 
     $.extend(old_vendor, vendor)
   }
@@ -83,6 +80,7 @@ class VendorStore{
   delete(vendor){
     this.vendors = this.vendors.filter( v => v._id != vendor._id )
     this.vendor = {}
+    this.vendor_action = 'new'
   }
 }
 
