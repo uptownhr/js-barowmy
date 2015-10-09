@@ -20,6 +20,10 @@ class Vendors extends Base{
     vendorActions.fetch()
   }
 
+  componentWillUnmount(){
+    vendorStore.unlisten(this.onChange)
+  }
+
   onChange(vendors){
     this.setState(vendors)
   }

@@ -22,15 +22,18 @@ class Locations extends Base{
                type="textarea"
                placeholder="Street"
                onKeyDown={this.handleKeyPress}
+               ref="address"
           />
-        <Button onClick={this.addLocation}>Add</Button>
         <p>
           {this.state.number} {this.state.street} {this.state.unit}<br/>
           {this.state.regions[0]}, {this.state.state} {this.state.postalcode}
         </p>
         <ul>
-          {this.props.data.map( (loc,index) => <li key={index}><pre>{loc['text']}</pre><span onClick={this.delete.bind(this,index)}>delete</span></li> )}
+          {this.props.data.map( (loc,index) =>
+            <li key={index}><pre>{loc['text']}</pre><span onClick={this.delete.bind(this,index)}>delete</span></li>
+          )}
         </ul>
+        <Button onClick={this.addLocation}>Add</Button>
       </div>
     )
   }
@@ -39,16 +42,11 @@ class Locations extends Base{
     let text = e.target.value
     let address = addressit(text)
     this.setState(address)
-
-    if( e.keyCode == 13 && text.length > 0 ){
-      e.preventDefault()
-      this.addLocation()
-      e.target.value = ''
-    }
   }
 
   addLocation(){
     this.props.add(this.state)
+    this.refs.address.getInputDOMNode().value = ''
   }
 
 

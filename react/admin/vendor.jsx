@@ -149,7 +149,6 @@ class Vendor extends Base{
   addLocation(location){
     this.state.data.locations.push(location)
     this.setState(this.state.data)
-    console.log(this.state.data.locations)
   }
 
   deleteLocation(index){
