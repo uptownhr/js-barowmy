@@ -36,7 +36,8 @@ class Locations extends Base{
   }
 
   handleKeyPress(e){
-    address = addressit(text)
+    let text = e.target.value
+    let address = addressit(text)
     this.setState(address)
   }
 
