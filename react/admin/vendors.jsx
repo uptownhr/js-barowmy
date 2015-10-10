@@ -37,7 +37,6 @@ class Vendors extends Base{
   render(){
     return(
       <div>
-        <p>{this.state.error}</p>
         <Grid fluid>
           <Row>
             <Col sm={4} md={2}>
@@ -49,6 +48,7 @@ class Vendors extends Base{
             </Col>
             <Col sm={8} md={8}>
               <Well>
+                <p>{this.state.error}</p>
                 <Vendor action={this.state.vendor_action}
                         data={this.state.vendor}
                   />

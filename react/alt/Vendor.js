@@ -1,13 +1,21 @@
 "use strict"
+const _ = require('lodash')
 let Alt = require('alt')
 let alt = new Alt()
+
 
 class VendorActions{
   add(vendor){
     let url = '/admin/vendors/new'
-    $.post(url, vendor, function(res){
-      this.dispatch(res)
-    }.bind(this))
+    $.post(url, vendor)
+      .done( (res) => {
+        this.dispatch(res)
+      })
+      .fail( vendorActions.error )
+  }
+
+  error(err){
+    this.dispatch(err)
   }
 
   fetch(){
@@ -52,7 +60,8 @@ class VendorStore{
       fetch: vendorActions.FETCH,
       save: vendorActions.SAVE,
       delete: vendorActions.DELETE,
-      edit: vendorActions.EDIT
+      edit: vendorActions.EDIT,
+      err: vendorActions.ERROR
     })
   }
 
@@ -67,6 +76,7 @@ class VendorStore{
   }
 
   edit(index){
+    this.error = ''
     this.vendor = this.vendors[index]
     this.vendor_action = 'edit'
   }
@@ -81,6 +91,10 @@ class VendorStore{
     this.vendors = this.vendors.filter( v => v._id != vendor._id )
     this.vendor = {}
     this.vendor_action = 'new'
+  }
+
+  err(err){
+    this.error = err.responseText
   }
 }
 

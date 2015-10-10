@@ -32,10 +32,12 @@ class Tags extends Base{
       e.preventDefault()
 
       if(text.indexOf('|') != -1){
-        let split = text.split('|').map( (t) => t.trim() )
-        split.forEach( (tag) => {
-          this.props.add(tag)
-        })
+        text
+          .split('|')
+          .map( (t) => t.trim() )
+          .forEach( (tag) => {
+            this.props.add(tag)
+          })
       }else{
         this.props.add(text)
       }
