@@ -12,14 +12,6 @@ class Admin extends Base{
     }
   }
 
-  componentDidMount(){
-    $.get('/admin/auth/', this.loggedIn)
-  }
-
-  loggedIn(){
-    this.setState({loggedIn: true})
-  }
-
   render(){
     const navItems = [
       {
@@ -41,7 +33,7 @@ class Admin extends Base{
     ]
 
     const navKey = navItems.findIndex( n => n.path == this.props.location.pathname )
-    
+
     return (
       <div>
         <Navbar>
@@ -51,12 +43,19 @@ class Admin extends Base{
             )}
           </Nav>
           <Nav right>
-            <NavItem href="/admin/logout">Logout</NavItem>
+            <NavItem href="/admin/logout" onClick={this.logOut}>Logout</NavItem>
           </Nav>
         </Navbar>
         {this.props.children}
       </div>
     )
+  }
+
+  logOut(e){
+    e.preventDefault()
+    $.get('/admin/logout')
+    window.localStorage['loggedIn'] = false
+    window.location.reload()
   }
 }
 

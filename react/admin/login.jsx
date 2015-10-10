@@ -1,6 +1,7 @@
 "use strict"
 const {React, Base} = require('./base')
 const {Input, ButtonInput} = require('react-bootstrap')
+const {authActions} = require('../alt/Auth')
 
 class Login extends Base{
   constructor(props){
@@ -16,10 +17,14 @@ class Login extends Base{
     let username = this.refs.username.getValue()
     let password = this.refs.password.getValue()
 
-    let opt = {username, password}
-    $.post('/admin/auth', opt)
-      .done( this.props.loggedIn )
-      .fail( this.showError )
+    $.post('/admin/auth', {username, password})
+      .done(this.loggedIn)
+      .fail(this.showError)
+  }
+
+  loggedIn(){
+    window.localStorage['loggedIn'] = true
+    this.props.history.pushState(null, '/dashboard')
   }
 
   showError(res){

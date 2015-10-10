@@ -41,6 +41,15 @@ module.exports = function(router, passport){
       this.redirect('/admin')
     })
 
+  /*router.use( function *(next){
+    if( this.req.user ){
+      yield next
+    }else{
+      this.status = 400
+      this.body = 'not logged in'
+    }
+  })*/
+
   //api
   router
   .get('/dashboard', function *(next){
@@ -227,20 +236,17 @@ module.exports = function(router, passport){
     })
 
   //check for authentication and redirect to /login
-  /*router.use( function *(next){
-    var public_urls = ['/admin/login','/admin/auth']
+  router.use( function *(next){
+    var public_urls = ['/admin/login','/admin/auth', '/admin']
 
     if( public_urls.indexOf(this.request.url) == -1 ){
       if(!this.req.user){
         this.status = 400
         return this.body = "not logged in"
-        //this.redirect('login')
       }
     }
     yield next
-  })*/
-
-
+  })
 
   return router
 }
