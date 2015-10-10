@@ -37,13 +37,13 @@ module.exports = function(router){
         .map( vendor => vendor.locations )
         .reduce( flatten, [] )
         .reduce( (res,loc) => {
-          let l = res.find( a => a.region == loc.regions[0] )
+          let l = res.find( a => a.city == loc.city )
 
           if(l){
             l.count++
           }else{
             res.push({
-              name: toTitleCase(loc.regions[0]),
+              name: toTitleCase(loc.city),
               count: 1
             })
           }
@@ -79,5 +79,5 @@ module.exports = function(router){
 
 function toTitleCase(str)
 {
-  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  return (str||"").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }

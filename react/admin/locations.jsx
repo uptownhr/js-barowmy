@@ -6,17 +6,11 @@ var addressit = require('addressit');
 class Locations extends Base{
   constructor(props){
     super(props)
-    this.state = {
-      data:{
-        number: '',
-        street: '',
-        regions: [],
-        city: '',
-        state: '',
-        postalcode: ''
-      },
-      action: 'new'
-    }
+    this.state = props
+  }
+
+  componentWillReceiveProps(props){
+    this.setState( props )
   }
 
   render(){
