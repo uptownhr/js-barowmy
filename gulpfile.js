@@ -110,7 +110,7 @@ gulp.task('babelify',function(){
   return bundleBrowserify(b, {name: 'admin.js', path: 'public'})
 })
 
-gulp.task('init', ['adduser','babelify'], function(){
+gulp.task('init', ['babelify'], function(){
   console.log('finished')
   process.exit()
 })
