@@ -30,8 +30,17 @@ class Tags extends Base{
     let text = e.target.value
     if( e.keyCode == 13 && text.length > 0 ){
       e.preventDefault()
-      this.props.add(text)
+
+      if(text.indexOf('|') != -1){
+        let split = text.split('|').map( (t) => t.trim() )
+        split.forEach( (tag) => {
+          this.props.add(tag)
+        })
+      }else{
+        this.props.add(text)
+      }
       e.target.value = ''
+
     }
   }
 

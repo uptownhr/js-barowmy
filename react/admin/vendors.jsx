@@ -41,7 +41,7 @@ class Vendors extends Base{
         <Grid fluid>
           <Row>
             <Col sm={4} md={2}>
-              <ul>Vendors - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+              <ul>Vendors - <a onClick={this.showNew.bind(this)}>Add new </a>
                 {this.state.vendors.map( (vendor,index) => {
                   return <li key={index} onClick={vendorActions.edit.bind(this, index)}>{vendor.name}</li>
                 })}
