@@ -30,5 +30,5 @@ ReactDOM.render(
     <Route path="/login" component={Login}/>
   </Router>
     ,
-  document.getElementsByTagName('body')[0]
+  $('#main')[0]
 )
