@@ -9,7 +9,7 @@ block body
       .col-sm-4
         h2 Tags
       .col-sm-4
-        h2 Locations
+        h2 Cities
       .col-sm-4
         h2 Vendors
     .row
@@ -21,7 +21,8 @@ block body
       .col-sm-4
         ul.list-unstyled
           each location in locations
-            li testing
+            li
+              a(href="/city/#{location.name}")=location.name
       .col-sm-4
         ul.list-unstyled
           each vendor in vendors

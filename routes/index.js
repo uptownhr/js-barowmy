@@ -37,13 +37,13 @@ module.exports = function(router){
         .map( vendor => vendor.locations )
         .reduce( flatten, [] )
         .reduce( (res,loc) => {
-          let l = res.find( a => a.name == loc.name )
+          let l = res.find( a => a.region == loc.regions[0] )
 
           if(l){
             l.count++
           }else{
             res.push({
-              name: loc.name,
+              name: toTitleCase(loc.regions[0]),
               count: 1
             })
           }
@@ -51,7 +51,7 @@ module.exports = function(router){
           return res
         },[])
         .sort( (a,b) => b.count - a.count )
-
+      console.log(locations)
       this.render('index', {vendors, locations, tags, user})
     })
     .get('/tag/:tag', function *(next){
@@ -65,6 +65,19 @@ module.exports = function(router){
       let vendor = yield Vendor.findOne({name: this.params.vendor})
       this.render('vendor', {vendor})
     })
+    .get('/city/:city', function *(next){
+      let city = this.params.city
+
+      let search = new RegExp(city, 'i')
+
+      let vendor = yield Vendor.find({'locations': {$elemMatch: { regions: search } }})
+      this.body=vendor
+    })
 
   return router
+}
+
+function toTitleCase(str)
+{
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
