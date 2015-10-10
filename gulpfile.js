@@ -100,4 +100,19 @@ const bundleBrowserify = function(b, target) {
     .pipe(gulp.dest(target.path));
 };
 
+gulp.task('babelify',function(){
+  const a = getBrowserifyInstance('react/front/main.jsx')
+  a.transform(babelify)
+  bundleBrowserify(a, {name: 'front.js', path: 'public'})
+
+  const b = getBrowserifyInstance('react/admin/main.jsx')
+  b.transform(babelify)
+  return bundleBrowserify(b, {name: 'admin.js', path: 'public'})
+})
+
+gulp.task('init', ['adduser','babelify'], function(){
+  console.log('finished')
+  process.exit()
+})
+
 gulp.task('default', ['nodemon', 'watch-admin', 'watch-front','adduser']);
