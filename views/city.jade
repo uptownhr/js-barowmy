@@ -8,15 +8,15 @@ block body
       .col-sm-6
         h2 Vendors
       .col-sm-6
-        h2 Locations
+        h2 Tags
     .row
       .col-sm-6
         ul.list-unstyled
           each vendor in vendors
             li
-            a(href="/vendor/#{vendor.name}")=vendor.name
+              a(href="/vendor/#{vendor.name}")=vendor.name
       .col-sm-6
         ul.list-unstyled
-          each location in locations
+          each tag in tags
             li
-              a(href="/city/#{location.city}")=location.city
+              a(href="/tag/#{tag}")=tag

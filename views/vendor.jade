@@ -17,8 +17,9 @@ block body
         ul.list-unstyled
           each tag in vendor.tags
             li
-            a(href="/tag/#{tag}")=tag
+              a(href="/tag/#{tag}")=tag
       .col-sm-6
         ul.list-unstyled
           each location in vendor.locations
-            li=location.name
+            li
+              a(href="/city/#{location.city}")=location.city

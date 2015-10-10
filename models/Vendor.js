@@ -22,7 +22,7 @@ const vendorSchema = new mongoose.Schema({
   website: {type: String},
   locations: [locationSchema],
   images: [imageSchema],
-  tags: [],
+  tags: {type: [String], lowercase: true, trim: true},
   created_at: {type: Date, default: Date.now }
 })
 

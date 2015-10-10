@@ -51,7 +51,7 @@ module.exports = function(router){
           return res
         },[])
         .sort( (a,b) => b.count - a.count )
-      console.log(locations)
+
       this.render('index', {vendors, locations, tags, user})
     })
     .get('/tag/:tag', function *(next){
@@ -63,6 +63,7 @@ module.exports = function(router){
     })
     .get('/vendor/:vendor', function *(next){
       let vendor = yield Vendor.findOne({name: this.params.vendor})
+
       this.render('vendor', {vendor})
     })
     .get('/city/:city', function *(next){
@@ -70,8 +71,10 @@ module.exports = function(router){
 
       let search = new RegExp(city, 'i')
 
-      let vendor = yield Vendor.find({'locations': {$elemMatch: { regions: search } }})
-      this.body=vendor
+      let vendors = yield Vendor.find({'locations': {$elemMatch: { city: search } }})
+      let tags = vendors.map( vendor => vendor.tags ).reduce(flatten, [])
+
+      this.render('city', {vendors, tags})
     })
 
   return router
