@@ -5,8 +5,7 @@
 /*
  * General styles
  */
-body, html {
-    height: 100%;
+body{
     background-repeat: no-repeat;
     background-image: linear-gradient(to bottom, #ABD8FF 0%, #E0D6FF 80%);
 }
