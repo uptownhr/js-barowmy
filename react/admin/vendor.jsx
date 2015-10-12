@@ -6,7 +6,6 @@ const Tags = require('./tags')
 const Locations = require('./locations')
 const {vendorActions, vendorStore} = require('../alt/Vendor')
 
-
 class Vendor extends Base{
   constructor(props){
     super(props)

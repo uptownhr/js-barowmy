@@ -1,6 +1,7 @@
 "use strict"
 const koa = require('koa'),
   Jade = require('koa-jade'),
+  compress = require('koa-compress'),
   serve = require('koa-static'),
   config = require('./config'),
   session = require('koa-session'),
@@ -25,13 +26,15 @@ const jade = new Jade({
 
 var app = koa()
 
-app.use(jade.middleware)
-app.use(serve(
-  config.staticPath, {
-    maxage: 365 * 24 * 60 * 60
-  }
-))
-app.use(koaBody)
+app
+  .use(jade.middleware)
+  .use(compress())
+  .use(serve(
+    config.staticPath, {
+      maxage: 365 * 24 * 60 * 60
+    }
+  ))
+  .use(koaBody)
 
 //session/passport
 app.keys = ['testing1234']
