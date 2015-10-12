@@ -2,7 +2,7 @@
 const {Base,React} = require('./base')
 const Vendor = require('./vendor')
 const {vendorActions, vendorStore} = require('../alt/Vendor')
-const {Grid,Row,Col,Well}= require('react-bootstrap')
+const {Grid,Row,Col,Well, Panel, ListGroup, ListGroupItem, Button, Glyphicon}= require('react-bootstrap')
 
 class Vendors extends Base{
   constructor(props){
@@ -35,24 +35,32 @@ class Vendors extends Base{
   }
 
   render(){
+    let header
+    if(this.state.vendor_action == 'new'){
+      header = `New Vendor`
+    }else{
+      header = `Edit Vendor ${this.state.vendor.name}`
+    }
+
     return(
       <div>
+        <p>{this.state.error}</p>
         <Grid fluid>
           <Row>
             <Col sm={4} md={2}>
-              <ul>Vendors - <a onClick={this.showNew.bind(this)}>Add new </a>
+              <ListGroup>
+                <ListGroupItem header="Vendors"><Button bsStyle="info" onClick={this.showNew.bind(this)} bsSize="xsmall"><Glyphicon glyph="plus" />add new</Button></ListGroupItem>
                 {this.state.vendors.map( (vendor,index) => {
-                  return <li key={index} onClick={vendorActions.edit.bind(this, index)}>{vendor.name}</li>
+                  return <ListGroupItem key={index} onClick={vendorActions.edit.bind(this, index)}>{vendor.name}</ListGroupItem>
                 })}
-              </ul>
+              </ListGroup>
             </Col>
             <Col sm={8} md={8}>
-              <Well>
-                <p>{this.state.error}</p>
+              <Panel header={header}>
                 <Vendor action={this.state.vendor_action}
                         data={this.state.vendor}
                   />
-              </Well>
+              </Panel>
             </Col>
           </Row>
         </Grid>

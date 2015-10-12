@@ -1,7 +1,7 @@
 "use strict"
 const {React,Base} = require('./base')
 const { Router, Link } = require('react-router')
-const {Navbar, Nav, NavItem} = require('react-bootstrap')
+const {Navbar, Nav, NavItem,NavBrand} = require('react-bootstrap')
 
 class Admin extends Base{
   constructor(props){
@@ -37,6 +37,7 @@ class Admin extends Base{
     return (
       <div>
         <Navbar>
+          <NavBrand>Barowmy Admin</NavBrand>
           <Nav bsStyle="pills" activeKey={navKey} onSelect={this.props.history.pushState}>
             {navItems.map( (nav,key) =>
                 <NavItem eventKey={key} key={key} href={nav.path}>{nav.title}</NavItem>

@@ -1,6 +1,6 @@
 "use strict"
 const React = require('react')
-const {Grid, Row, Col} = require('react-bootstrap')
+const {Grid, Row, Col, Panel} = require('react-bootstrap')
 const {Line} = require('react-chartjs')
 
 function rand(min, max, num) {
@@ -73,19 +73,23 @@ class Dashboard extends React.Component{
 
   render(){
     return(
-      <div className="jumbotron text-center">
-        <h1>dashboard</h1>
+      <Grid fuild>
+        <Row>
+          <Panel header="Dashboard">
+            <Grid>
+              <Row>
+                <Col smOffset={2} sm={1}>Users: {this.state.user}</Col>
+                <Col sm={2}>Packages: {this.state.package}</Col>
+                <Col sm={2}>Products: {this.state.product} </Col>
+                <Col sm={2}>Vendors: {this.state.vendor} </Col>
+              </Row>
+            </Grid>
+            <Line data={this.state.chart} style={{width: '80%'}} redraw />
+          </Panel>
+        </Row>
+      </Grid>
 
-        <Grid>
-          <Row>
-            <Col smOffset={2} sm={1}>Users: {this.state.user}</Col>
-            <Col sm={2}>Packages: {this.state.package}</Col>
-            <Col sm={2}>Products: {this.state.product} </Col>
-            <Col sm={2}>Vendors: {this.state.vendor} </Col>
-          </Row>
-        </Grid>
-        <Line data={this.state.chart} style={{width: '80%'}} redraw />
-      </div>
+
     )
   }
 }

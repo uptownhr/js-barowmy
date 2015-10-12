@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput} = require('react-bootstrap')
+const {Input,Button,ButtonInput, ListGroup, ListGroupItem, Glyphicon} = require('react-bootstrap')
 const Sku = require('./sku')
 const ImagePreview = require('./image-preview')
 
@@ -41,7 +41,6 @@ class Product extends Base{
     return(
       <div>
         <form onSubmit={this.save}>
-          <h1>{this.props.action=='edit'? `Edit Product: ${this.state.data.name}`: `New Product: ${this.state.data.name}`}</h1>
           <Input type="text" label="Name" placeholder="Enter product name"
                  value={this.state.data.name}
                  onChange={this.inputChange.bind(this, 'name')}
@@ -65,12 +64,16 @@ class Product extends Base{
                 deleteSku={this.deleteSku}
                 vendors={this.props.vendors}
             />
-          <ul>Skus
+
+          <hr />
+          <ListGroup><b>Current SKUs</b>
             {this.state.data.skus.map( (sku,index) =>
-                <li onClick={this.editSku.bind(this,index)} key={index}>{sku.name} - <span onClick={this.deleteSku.bind(index)}>delete</span></li>
+                <ListGroupItem onClick={this.editSku.bind(this,index)} key={index}>{sku.name} <Glyphicon glyph="remove" onClick={this.deleteSku.bind(index)}/></ListGroupItem>
             )}
-          </ul>
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+          </ListGroup>
+
+          <hr />
+          <ButtonInput type="submit" bsStyle="primary" bsSize="small" value={this.props.action=='edit'?'Update':'Create'} />
         </form>
 
       </div>

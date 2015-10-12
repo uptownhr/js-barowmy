@@ -33,14 +33,26 @@ class Login extends Base{
 
   render(){
     return(
-      <div className="jumbotron text-center">
-        <span>{this.state.error}</span>
-        <form onSubmit={this.handleSubmit}>
-          <h1>Barowmy</h1>
-          <Input type="text" label="Username" placeholder="Enter your username" ref="username" />
-          <Input type="password" label="Password" ref="password" />
-          <ButtonInput type="submit" bsStyle="primary" bsSize="large" />
-        </form>
+      <div className="container">
+        <div className="card card-container">
+          <img id="profile-img" className="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"/>
+          <p id="profile-name" className="profile-name-card"></p>
+          <span>{this.state.error}</span>
+          <form className="form-signin" onSubmit={this.handleSubmit}>
+            <span id="reauth-email" className="reauth-email"></span>
+            <Input type="text" id="username" className="form-control" placeholder="username" ref="username" autofocus />
+            <Input type="password" id="inputPassword" className="form-control" placeholder="Password" ref="password" />
+            <div id="remember" className="checkbox">
+              <label>
+                <Input type="checkbox" value="remember-me" /> Remember me
+              </label>
+            </div>
+            <ButtonInput className="btn btn-lg btn-primary btn-block btn-signin" type="submit" />
+          </form>
+          <a href="#" className="forgot-password">
+            Forgot the password?
+          </a>
+        </div>
       </div>
     )
   }
