@@ -1,7 +1,7 @@
 "use strict"
 const {Base,React} = require('./base')
 const Package = require('./package')
-const {Well,Grid,Row,Col} = require('react-bootstrap')
+const {Well,Grid,Row,Col, Panel, ListGroup, ListGroupItem, Button, Glyphicon} = require('react-bootstrap')
 
 class Packages extends Base{
   constructor(props){
@@ -72,30 +72,38 @@ class Packages extends Base{
   }
 
   render(){
+    let header
+    if(this.state.package_action == 'new'){
+      header = `New Package`
+    }else{
+      header = `Edit Package ${this.state.package.name}`
+    }
+
     return(
       <div>
         <p>{this.state.error}</p>
         <Grid fluid>
           <Row>
             <Col sm={4} md={2}>
-              <ul>Packages - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+              <ListGroup>
+                <ListGroupItem header="Packages"><Button bsStyle="info" onClick={this.showNew.bind(this)} bsSize="xsmall"><Glyphicon glyph="plus" />add new</Button></ListGroupItem>
                 {this.state.packages.map( (pack,index)=> {
                   let prodNav
                   if(pack.products.length > 0){
                     prodNav = <ul>{pack.products.map( (prod,index) => <li key={index}>{prod.name}</li> )}</ul>
                   }
-                  return <li key={index} onClick={this.editPackage.bind(this, index)}>{pack.name} {prodNav}</li>
+                  return <ListGroupItem key={index} onClick={this.editPackage.bind(this, index)}>{pack.name} {prodNav}</ListGroupItem>
                 })}
-              </ul>
+              </ListGroup>
             </Col>
             <Col sm={8} md={8}>
-              <Well>
-                <Package action={this.state.package_action}
-                         data={this.state.package}
-                         products={this.state.products}
-                         save={this.savePackage}
-                  />
-                </Well>
+              <Panel header={header}>
+              <Package action={this.state.package_action}
+                       data={this.state.package}
+                       products={this.state.products}
+                       save={this.savePackage}
+                />
+              </Panel>
             </Col>
           </Row>
         </Grid>

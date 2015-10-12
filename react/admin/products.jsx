@@ -1,7 +1,7 @@
 "use strict"
 const {Base,React} = require('./base')
 const Product = require('./product')
-const {Grid,Row,Col,Well} = require('react-bootstrap')
+const {Well,Grid,Row,Col,Panel, ListGroup, ListGroupItem, Button, Glyphicon} = require('react-bootstrap')
 
 class Products extends Base{
   constructor(props){
@@ -55,32 +55,40 @@ class Products extends Base{
   }
 
   render(){
+    let header
+    if(this.state.product_action == 'new'){
+      header = `New Product`
+    }else{
+      header = `Edit Product ${this.state.product.name}`
+    }
+
     return(
       <div>
         <p>{this.state.error}</p>
         <Grid fluid>
           <Row>
             <Col sm={4} md={2}>
-              <ul>Products - <a href="#" onClick={this.showNew.bind(this)}>Add new </a>
+              <ListGroup>
+                <ListGroupItem header="Products"><Button bsStyle="info" onClick={this.showNew.bind(this)} bsSize="xsmall"><Glyphicon glyph="plus" />add new</Button></ListGroupItem>
                 {this.state.products.map( (product,index)=> {
                   let skuNav
                   if(product.skus.length > 0){
                     skuNav = <ul>{product.skus.map( (sku,index) => <li key={sku._id}>{sku.name}</li> )}</ul>
                   }
-                  return <li key={product._id} onClick={this.editProduct.bind(this,index)}>{product.name}
+                  return <ListGroupItem key={product._id} onClick={this.editProduct.bind(this,index)}>{product.name}
                     {skuNav}
-                  </li>
+                  </ListGroupItem>
                 })}
-              </ul>
+              </ListGroup>
             </Col>
             <Col sm={8} md={8}>
-              <Well>
+              <Panel header={header}>
                 <Product action={this.state.product_action}
                          data={this.state.product}
                          saveProduct={this.saveProduct}
                          vendors={this.state.vendors}
                   />
-              </Well>
+              </Panel>
             </Col>
           </Row>
         </Grid>

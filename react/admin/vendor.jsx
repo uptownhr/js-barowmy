@@ -45,7 +45,6 @@ class Vendor extends Base{
     return(
       <div>
         <form onSubmit={this.save}>
-          <h1>{this.props.action=='edit'? `Edit Vendor: ${this.state.data.name}`: `New Vendor: ${this.state.data.name}`}</h1>
           <Input type="text" label="Name" placeholder="Enter vendor name"
                  value={this.state.data.name}
                  onChange={this.inputChange.bind(this, 'name')}
@@ -94,10 +93,10 @@ class Vendor extends Base{
                      delete={this.deleteLocation}
             />
 
-
+          <hr />
           <ButtonToolbar>
-            {this.props.action == 'edit' ? <Button bsStyle="danger" bsSize="large" onClick={this.delete}>Delete</Button> : ''}
-            <ButtonInput style={{marginLeft: '5px'}} type="submit" bsStyle="primary" bsSize="large" value={this.props.action=='edit'?'Update':'Create'} />
+            {this.props.action == 'edit' ? <Button bsStyle="danger" bsSize="small" onClick={this.delete}>Delete</Button> : ''}
+            <ButtonInput style={{marginLeft: '5px'}} type="submit" bsStyle="primary" bsSize="small" value={this.props.action=='edit'?'Update':'Create'} />
           </ButtonToolbar>
         </form>
       </div>

@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput,ButtonToolbar} = require('react-bootstrap')
+const {Input,Button,ButtonInput,ButtonToolbar, ListGroup, ListGroupItem, Glyphicon} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
 const _ = require('lodash')
 
@@ -77,7 +77,6 @@ class Package extends Base{
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
-          <h1>{title}</h1>
           <Input type="text" label="Name" placeholder="Enter package name"
                  value={this.state.data.name}
                  onChange={this.inputChange.bind(this, 'name')}
@@ -104,15 +103,16 @@ class Package extends Base{
               <option key={index} value={index}>{product.name}</option>
             )}
           </Input>
-          <ul>Products
+          <ListGroup><b>Products</b>
             {this.state.data.products.map( (product,index) =>
-                <li key={index}>{product.name} - <span onClick={this.deleteProduct.bind(index)}>delete</span></li>
+                <ListGroupItem key={index}>{product.name} <Glyphicon glyph="remove" onClick={this.deleteProduct.bind(index)} /></ListGroupItem>
             )}
-          </ul>
+          </ListGroup>
 
+          <hr />
           <ButtonToolbar>
-            <Button bsSize="large" onClick={this.addProduct} disabled={this.state.buttonState} >Add Product</Button>
-            <ButtonInput style={{marginLeft:"5px"}}type="submit" bsStyle="primary" bsSize="large" value={buttonText} />
+            <Button bsSize="small" onClick={this.addProduct} disabled={this.state.buttonState} >Add Product</Button>
+            <ButtonInput style={{marginLeft:"5px"}}type="submit" bsStyle="primary" bsSize="small" value={buttonText} />
           </ButtonToolbar>
         </form>
       </div>
