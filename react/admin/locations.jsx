@@ -6,7 +6,10 @@ var addressit = require('addressit');
 class Locations extends Base{
   constructor(props){
     super(props)
-    this.state = props
+    this.state = {
+      data: props,
+      location: {}
+    }
   }
 
   componentWillReceiveProps(props){
@@ -14,8 +17,7 @@ class Locations extends Base{
   }
 
   render(){
-    let data = this.state.data
-
+    let location = this.state.location
 
     return(
       <div>
@@ -25,12 +27,12 @@ class Locations extends Base{
                onKeyDown={this.handleKeyPress}
                ref="address"
           />
-        <Input type="text" label="Number" value={data.number} onChange={this.inputChange.bind(this, 'number')}/>
-        <Input type="text" label="Street" value={data.street} onChange={this.inputChange.bind(this, 'street')} />
-        <Input type="text" label="Unit" value={data.unit} onChange={this.inputChange.bind(this, 'unit')} />
-        <Input type="text" label="City" value={data.city} onChange={this.inputChange.bind(this, 'city')} />
-        <Input type="text" label="State" value={data.state} onChange={this.inputChange.bind(this, 'state')} />
-        <Input type="text" label="Zip" value={data.postalcode} onChange={this.inputChange.bind(this, 'postalcode')} />
+        <Input type="text" label="Number" value={location.number} onChange={this.inputChange.bind(this, 'number')}/>
+        <Input type="text" label="Street" value={location.street} onChange={this.inputChange.bind(this, 'street')} />
+        <Input type="text" label="Unit" value={location.unit} onChange={this.inputChange.bind(this, 'unit')} />
+        <Input type="text" label="City" value={location.city} onChange={this.inputChange.bind(this, 'city')} />
+        <Input type="text" label="State" value={location.state} onChange={this.inputChange.bind(this, 'state')} />
+        <Input type="text" label="Zip" value={location.postalcode} onChange={this.inputChange.bind(this, 'postalcode')} />
 
         <ul>
           {this.props.data.map( (loc,index) =>
@@ -54,10 +56,9 @@ class Locations extends Base{
 
     //normalizing for simplicity
     address.city = address.regions[0]
-    console.log(address)
 
     this.setState({
-      data: {
+      location: {
         text: address.text,
         number: address.number,
         street: address.street,
@@ -70,7 +71,7 @@ class Locations extends Base{
   }
 
   addLocation(){
-    this.props.add(this.state.data)
+    this.props.add(this.state.location)
     this.refs.address.getInputDOMNode().value = ''
   }
 
@@ -80,7 +81,7 @@ class Locations extends Base{
   }
 
   inputChange(field, e ) {
-    this.state.data[field] = e.target.value
+    this.state.location[field] = e.target.value
     this.setState(this.state)
   }
 }

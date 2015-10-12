@@ -26,7 +26,6 @@ class VendorActions{
 
   save(vendor){
     let url = '/admin/vendors/edit'
-
     return $.post(url, vendor)
       .done( res => {
         this.dispatch(vendor)
@@ -83,8 +82,8 @@ class VendorStore{
 
   save(vendor){
     let old_vendor = this.vendors.find( v => v._id == vendor._id )
-    console.log(old_vendor, vendor)
-    //$.extend(old_vendor, vendor)
+
+    $.extend(old_vendor, vendor)
   }
 
   delete(vendor){
