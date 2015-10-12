@@ -26,7 +26,11 @@ const jade = new Jade({
 var app = koa()
 
 app.use(jade.middleware)
-app.use(serve(config.staticPath))
+app.use(serve(
+  config.staticPath, {
+    maxage: 60000
+  }
+))
 app.use(koaBody)
 
 //session/passport

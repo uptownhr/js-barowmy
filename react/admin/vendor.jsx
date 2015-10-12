@@ -26,6 +26,7 @@ class Vendor extends Base{
       tags: []
     }
 
+    console.log('initial', data,props.data)
     $.extend(data,props.data)
     return {
       data

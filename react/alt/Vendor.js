@@ -83,8 +83,8 @@ class VendorStore{
 
   save(vendor){
     let old_vendor = this.vendors.find( v => v._id == vendor._id )
-
-    $.extend(old_vendor, vendor)
+    console.log(old_vendor, vendor)
+    //$.extend(old_vendor, vendor)
   }
 
   delete(vendor){

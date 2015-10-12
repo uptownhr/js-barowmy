@@ -16,7 +16,18 @@ const {authStore} = require('../alt/Auth')
 function test(next, replace){
   if(window.localStorage['loggedIn'] != "true"){
     replace(null, '/login')
+  }else{
+    console.log('wtf')
+    checkLogin(replace)
   }
+}
+
+function checkLogin(replace){
+  $.get('/admin/auth')
+  .fail(function(err){
+      replace(null, '/login')
+      window.localStorage['loggedIn'] = false
+    })
 }
 
 ReactDOM.render(
