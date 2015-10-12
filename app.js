@@ -28,7 +28,7 @@ var app = koa()
 app.use(jade.middleware)
 app.use(serve(
   config.staticPath, {
-    maxage: 60000
+    maxage: 365 * 24 * 60 * 60
   }
 ))
 app.use(koaBody)
