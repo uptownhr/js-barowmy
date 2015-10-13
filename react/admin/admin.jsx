@@ -29,6 +29,10 @@ class Admin extends Base{
       {
         path: '/vendors',
         title: 'Vendors'
+      },
+      {
+        path: '/users',
+        title: 'Users'
       }
     ]
 
