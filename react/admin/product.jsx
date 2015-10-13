@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput, ListGroup, ListGroupItem, Glyphicon} = require('react-bootstrap')
+const {Input,Button,ButtonInput, ListGroup, ListGroupItem, Glyphicon, Badge} = require('react-bootstrap')
 const Sku = require('./sku')
 const ImagePreview = require('./image-preview')
 
@@ -68,7 +68,7 @@ class Product extends Base{
           <hr />
           <ListGroup><b>Current SKUs</b>
             {this.state.data.skus.map( (sku,index) =>
-                <ListGroupItem onClick={this.editSku.bind(this,index)} key={index}>{sku.name} <Glyphicon glyph="remove" onClick={this.deleteSku.bind(index)}/></ListGroupItem>
+                <ListGroupItem onClick={this.editSku.bind(this,index)} key={index}>{sku.name} <Badge onClick={this.deleteSku.bind(this,index)}><Glyphicon glyph="remove" /></Badge></ListGroupItem>
             )}
           </ListGroup>
 

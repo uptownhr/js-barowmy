@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput} = require('react-bootstrap')
+const {Input,Button,ButtonInput, Row, Col, ListGroup, ListGroupItem, Badge, Glyphicon} = require('react-bootstrap')
 var addressit = require('addressit');
 
 class Locations extends Base{
@@ -27,24 +27,38 @@ class Locations extends Base{
                onKeyDown={this.handleKeyPress}
                ref="address"
           />
-        <Input type="text" label="Number" value={location.number} onChange={this.inputChange.bind(this, 'number')}/>
-        <Input type="text" label="Street" value={location.street} onChange={this.inputChange.bind(this, 'street')} />
-        <Input type="text" label="Unit" value={location.unit} onChange={this.inputChange.bind(this, 'unit')} />
-        <Input type="text" label="City" value={location.city} onChange={this.inputChange.bind(this, 'city')} />
-        <Input type="text" label="State" value={location.state} onChange={this.inputChange.bind(this, 'state')} />
-        <Input type="text" label="Zip" value={location.postalcode} onChange={this.inputChange.bind(this, 'postalcode')} />
+        <Row>
+          <Col xs={3}>
+            <Input type="text" label="Number" value={location.number} onChange={this.inputChange.bind(this, 'number')}/>
+          </Col>
+          <Col xs={6}>
+            <Input type="text" label="Street" value={location.street} onChange={this.inputChange.bind(this, 'street')} />
+          </Col>
+          <Col xs={3}>
+            <Input type="text" label="Unit" value={location.unit} onChange={this.inputChange.bind(this, 'unit')} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6}>
+            <Input type="text" label="City" value={location.city} onChange={this.inputChange.bind(this, 'city')} />
+          </Col>
+          <Col xs={2}>
+            <Input type="text" label="State" value={location.state} onChange={this.inputChange.bind(this, 'state')} />
+          </Col>
+          <Col xs={4}>
+            <Input type="text" label="Zip" value={location.postalcode} onChange={this.inputChange.bind(this, 'postalcode')} />
+          </Col>
+        </Row>
 
-        <ul>
+        <ListGroup><b>Current Locations</b>
           {this.props.data.map( (loc,index) =>
-            <li key={index}>
-              <pre>
+            <ListGroupItem key={index}>
                   {loc.number} {loc.street} {loc.unit}<br/>
                   {loc.city}, {loc.state} {loc.postalcode}
-              </pre>
-              <span onClick={this.delete.bind(this,index)}>delete</span>
-            </li>
+              <Badge onClick={this.delete.bind(this,index)}><Glyphicon glyph="remove" /></Badge>
+            </ListGroupItem>
           )}
-        </ul>
+        </ListGroup>
         <Button onClick={this.addLocation}>Add</Button>
       </div>
     )
