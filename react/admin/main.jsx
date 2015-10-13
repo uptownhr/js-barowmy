@@ -10,6 +10,7 @@ const Dashboard = require('./dashboard')
 const Packages = require('./packages')
 const Products = require('./products')
 const Vendors = require('./vendors')
+const Users = require('./users')
 
 const {authStore} = require('../alt/Auth')
 
@@ -37,6 +38,7 @@ ReactDOM.render(
       <Route path="packages" component={Packages}/>
       <Route path="products" component={Products}/>
       <Route path="vendors" component={Vendors}/>
+      <Route path="users" component={Users}/>
     </Route>
     <Route path="/login" component={Login}/>
   </Router>

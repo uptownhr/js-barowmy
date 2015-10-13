@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput, ListGroup, ListGroupItem, Glyphicon} = require('react-bootstrap')
+const {Input,Button,ButtonInput, ListGroup, ListGroupItem, Glyphicon, Badge} = require('react-bootstrap')
 
 class Tags extends Base{
   constructor(props){
@@ -18,7 +18,7 @@ class Tags extends Base{
         <hr />
         <ListGroup><b>Current Tags</b>
           {this.props.data.map( (tag,index) =>
-                  <ListGroupItem key={index}>{tag} <Glyphicon glyph="remove" onClick={this.delete.bind(this,index)} /></ListGroupItem>
+                  <ListGroupItem key={index}>{tag} <Badge onClick={this.delete.bind(this,index)}><Glyphicon glyph="remove" /></Badge></ListGroupItem>
           )}
         </ListGroup>
       </div>

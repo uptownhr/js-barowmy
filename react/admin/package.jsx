@@ -1,6 +1,6 @@
 "use strict"
 const {React,Base} = require('./base')
-const {Input,Button,ButtonInput,ButtonToolbar, ListGroup, ListGroupItem, Glyphicon} = require('react-bootstrap')
+const {Input,Button,ButtonInput,ButtonToolbar, ListGroup, ListGroupItem, Glyphicon, Badge} = require('react-bootstrap')
 const ImagePreview = require('./image-preview')
 const _ = require('lodash')
 
@@ -105,7 +105,7 @@ class Package extends Base{
           </Input>
           <ListGroup><b>Products</b>
             {this.state.data.products.map( (product,index) =>
-                <ListGroupItem key={index}>{product.name} <Glyphicon glyph="remove" onClick={this.deleteProduct.bind(index)} /></ListGroupItem>
+                <ListGroupItem key={index}>{product.name} <Badge onClick={this.deleteProduct.bind(this,index)}><Glyphicon glyph="remove" /></Badge></ListGroupItem>
             )}
           </ListGroup>
 

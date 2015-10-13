@@ -5,6 +5,7 @@ var Package = require('../models/Package')
 var Product = require('../models/Product')
 var User = require('../models/User')
 var Vendor = require('../models/Vendor')
+var User = require('../models/User')
 var Promise = require('bluebird')
 var moment = require('moment')
 var _ = require('lodash')
@@ -233,6 +234,9 @@ module.exports = function(router, passport){
 
       let res = yield Package.findOne({_id: params._id}).populate('products')
       this.body = res
+    })
+    .get('/users', function *(next){
+      this.body = yield User.find().sort({created_at: -1})
     })
 
   //check for authentication and redirect to /login
