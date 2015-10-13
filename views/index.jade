@@ -16,16 +16,16 @@ block body
         ul.list-unstyled
           each tag in tags
             li
-              a(href="/tag/#{tag.name}")=tag.name
+              a(href="/tag/#{tag.name}")=toTitleCase(tag.name)
       .col-sm-4
         h2 Cities
         ul.list-unstyled
           each location in locations
             li
-              a(href="/city/#{location.name}")=location.name
+              a(href="/city/#{location.name}")=toTitleCase(location.name)
       .col-sm-4
         h2 Vendors
         ul.list-unstyled
           each vendor in vendors
             li
-              a(href="/vendor/#{vendor.name}")=vendor.name
+              a(href="/vendor/#{vendor.name}")=toTitleCase(vendor.name)

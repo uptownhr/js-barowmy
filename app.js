@@ -21,7 +21,15 @@ const jade = new Jade({
   noCache: true,
   pretty: true,
   compileDebug: true,
-  basedir: config.viewPath
+  basedir: config.viewPath,
+  helperPath: [
+    {
+      toTitleCase: function(str){
+        console.log(str)
+        return (str||"").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }
+    }
+  ]
 })
 
 var app = koa()
