@@ -25,7 +25,6 @@ const jade = new Jade({
   helperPath: [
     {
       toTitleCase: function(str){
-        console.log(str)
         return (str||"").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
     }
@@ -33,8 +32,20 @@ const jade = new Jade({
 })
 
 var app = koa()
+app.keys = ['testing1234']
 
 app
+  .use(function *(next){
+    let host = this.request.header.host
+
+    if(
+      process.env.PROD){
+      if(!host.match(/^www\..*/i)){
+        this.response.redirect(`http://www.${host}`)
+      }
+    }
+    yield next
+  })
   .use(jade.middleware)
   .use(compress())
   .use(serve(
@@ -43,12 +54,10 @@ app
     }
   ))
   .use(koaBody)
-
-//session/passport
-app.keys = ['testing1234']
-app.use(session(app))
-app.use(passport.initialize())
-app.use(passport.session())
+  //session/passport
+  .use(session(app))
+  .use(passport.initialize())
+  .use(passport.session())
 
 _.forIn(routes, function(route){
   app.use( route.routes() )
