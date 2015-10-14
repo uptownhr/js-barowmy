@@ -26,7 +26,7 @@ passport.use(new LocalStrategy({ usernameField: 'username' }, function(username,
     if( user.comparePassword(password) ){
       return done(null, user)
     }else{
-      return done(null, false, { message: 'Invalid usernmae or password.' });
+      return done(null, false, { message: 'Invalid username or password.' });
     }
   });
 }));
