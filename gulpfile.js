@@ -13,10 +13,12 @@ const User = require("./models/User");
 
 gulp.task('adduser', function(){
   mongoose.connect(config.mongodb);
+  const user = new User()
+  const password = user.generateHash('asdfasdf')
   return User.findOneAndUpdate( {username: 'admin'},
     {
       username: "admin",
-      password: "asdfasdf"
+      password: password
     },{
       upsert: true,
       new: true
