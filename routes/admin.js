@@ -251,7 +251,11 @@ module.exports = function(router, passport){
     var public_urls = ['/admin/login','/admin/auth', '/admin']
 
     if( public_urls.indexOf(this.request.url) == -1 ){
-      if(!this.req.user){
+      if(this.req.user.role !='administrator'){
+        this.status = 403
+        return this.body = 'Not authorized'
+      }
+      else if(!this.req.user){
         this.status = 400
         return this.body = "not logged in"
       }
