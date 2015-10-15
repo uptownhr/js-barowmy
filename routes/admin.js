@@ -27,14 +27,21 @@ module.exports = function(router, passport){
   router
     .get('/auth', function *(next){
       if( this.req.user ){
-        this.body = 'logged in'
+        this.body = {
+          state: "logged in",
+          role: (this.req.user.role) ? this.req.user.role : null
+        }
       }else{
         this.status = 400
         this.body = 'not logged in'
       }
     })
     .post('/auth', passport.authenticate('local'), function *(next){
-      this.body = 'logged in'
+      this.body = {
+        state: "logged in",
+        role: (this.req.user.role) ? this.req.user.role : null
+      }
+
     })
     .get('/logout', function *(next){
       this.req.logOut()

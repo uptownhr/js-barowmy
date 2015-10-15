@@ -18,7 +18,13 @@ class Login extends Base{
     let password = this.refs.password.getValue()
 
     $.post('/admin/auth', {username, password})
-      .done(this.loggedIn)
+      .done(function(res){
+        if(res.role == 'administrator'){
+          this.loggedIn()
+        }else{
+          this.setState({error: 'Not Authorized'})
+        }
+      }.bind(this))
       .fail(this.showError)
   }
 
