@@ -14,11 +14,11 @@ const Users = require('./users')
 
 const {authStore} = require('../alt/Auth')
 
-function test(next, replace){
+function authCheck(next, replace){
   if(window.localStorage['loggedIn'] != "true"){
     replace(null, '/login')
   }else{
-    console.log('wtf')
+    console.log('wtf' + Math.random())
     checkLogin(replace)
   }
 }
@@ -28,17 +28,22 @@ function checkLogin(replace){
   .fail(function(err){
       replace(null, '/login')
       window.localStorage['loggedIn'] = false
+    }).success(function(res){
+      if(res.role != 'administrator'){
+        replace(null, '/login')
+        window.localStorage['loggedIn'] = false
+      }
     })
 }
 
 ReactDOM.render(
   <Router>
-    <Route path="/" component={Admin} onEnter={test}>
-      <Route path="dashboard" component={Dashboard}/>
-      <Route path="packages" component={Packages}/>
-      <Route path="products" component={Products}/>
-      <Route path="vendors" component={Vendors}/>
-      <Route path="users" component={Users}/>
+    <Route path="/" component={Admin} onEnter={authCheck}>
+      <Route path="dashboard" component={Dashboard} onEnter={authCheck}/>
+      <Route path="packages" component={Packages} onEnter={authCheck}/>
+      <Route path="products" component={Products} onEnter={authCheck}/>
+      <Route path="vendors" component={Vendors} onEnter={authCheck}/>
+      <Route path="users" component={Users} onEnter={authCheck}/>
     </Route>
     <Route path="/login" component={Login}/>
   </Router>

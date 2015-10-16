@@ -10,20 +10,37 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const User = require("./models/User");
 
+mongoose.connect(config.mongodb);
 
 gulp.task('adduser', function(){
-  mongoose.connect(config.mongodb);
   const user = new User()
   const password = user.generateHash('asdfasdf')
   return User.findOneAndUpdate( {username: 'admin'},
     {
       username: "admin",
+      role: "administrator",
       password: password
     },{
       upsert: true,
       new: true
     }, function(err,user){
       console.log('user admin created', user)
+    }
+  )
+});
+
+gulp.task('adduserNonAdmin', function(){
+  const user = new User()
+  const password = user.generateHash('asdfasdf')
+  return User.findOneAndUpdate( {username: 'nonadmin'},
+    {
+      username: "nonadmin",
+      password: password
+    },{
+      upsert: true,
+      new: true
+    }, function(err,user){
+      console.log('user non-admin created', user)
     }
   )
 });
@@ -117,4 +134,4 @@ gulp.task('init', ['babelify'], function(){
   process.exit()
 })
 
-gulp.task('default', ['nodemon', 'watch-admin', 'watch-front','adduser']);
+gulp.task('default', ['nodemon', 'watch-admin', 'watch-front','adduser', 'adduserNonAdmin']);
