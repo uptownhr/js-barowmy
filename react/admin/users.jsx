@@ -1,6 +1,7 @@
 "use strict"
 const {Base, React} = require('./base')
 const Userprop = require('./user')
+const {userActions, userStore} = require('../alt/User')
 const {Well,Grid,Row,Col,Panel, ListGroup, ListGroupItem, Button, Glyphicon} = require('react-bootstrap')
 
 class Users extends Base {
@@ -15,21 +16,22 @@ class Users extends Base {
   }
 
   componentDidMount(){
-    this.getData().then( res => {
-      this.setState({
-        users: res[0]
-      })
-    })
+    userStore.listen(this.onChange)
+    userActions.fetch()
   }
 
-  getData(){
-    return Promise.all([$.get('/admin/users')])
+  componentWillUnmount(){
+    userStore.unlisten(this.onChange)
+  }
+
+  onChange(users){
+    this.setState(users)
   }
 
   showNew(){
     this.setState({
       user_action: 'new',
-      package: {}
+      user: {}
     })
   }
 
