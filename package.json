@@ -13,6 +13,7 @@
     "alt": "^0.17.4",
     "async": "^1.4.2",
     "auto-loader": "^0.2.0",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^2.10.1",
     "chart.js": "^1.0.2",
     "koa": "^1.0.0",
@@ -29,8 +30,7 @@
     "passport-local": "^1.0.0",
     "react-chartjs": "^0.6.0",
     "react-dom": "^0.14.0",
-    "react-router": "^1.0.0-rc3",
-    "bcrypt-nodejs": "^0.0.3"
+    "react-router": "^1.0.0-rc3"
   },
   "devDependencies": {
     "babelify": "^6.1.3",
