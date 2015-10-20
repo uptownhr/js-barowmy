@@ -245,6 +245,32 @@ module.exports = function(router, passport){
     .get('/users', function *(next){
       this.body = yield User.find().sort({created_at: -1})
     })
+    .post('/users/new', function *(next){
+      let params = this.request.body
+      let user = new User(params)
+      let response = ''
+      try{
+        response = yield user.save()
+      }catch(e){
+        response = e.message
+        this.status = 500
+      }
+
+      this.body = response
+    })
+    .post('/users/edit', function *(next){
+      let params = this.request.body
+      let res = yield User.update({_id: params._id}, params)
+
+      this.body = res
+    })
+    .post('/users/delete', function *(next){
+      let params = this.request.body
+      let res = yield User.remove({_id: params._id}).exec()
+      this.body = res
+      /*let res = yield Vendor.find({_id: this.params._id}).remove().exec()
+       this.body = res*/
+    })
 
   //check for authentication and redirect to /login
   router.use( function *(next){
